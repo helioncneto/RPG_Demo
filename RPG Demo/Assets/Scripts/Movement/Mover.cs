@@ -1,0 +1,79 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AI;
+using RPG.Core;
+
+namespace RPG.Movement
+{
+    public class Mover : MonoBehaviour, IAction
+    {
+
+        private NavMeshAgent _navmesh;
+        private Animator _anim;
+        private ActionScheduler _scheduler;
+
+        void Start()
+        {
+            _navmesh = GetComponent<NavMeshAgent>();
+            if (_navmesh == null)
+            {
+                Debug.LogError("NavMesh is Null");
+            }
+
+            _anim = GetComponent<Animator>();
+            if (_anim == null)
+            {
+                Debug.LogError("Animator is Null");
+            }
+
+            _scheduler = GetComponent<ActionScheduler>();
+            if (_scheduler == null)
+            {
+                Debug.LogError("ActionScheduler is Null");
+            }
+        }
+
+        void Update()
+        {
+            UpdateAnimator();
+
+            // Minha implementação
+            //_anim.SetFloat("movingForward", _navmesh.velocity.magnitude);
+
+            // Desenhar o Ray para propósito de debug
+            //Debug.DrawRay(lastRay.origin, lastRay.direction * 100);
+
+            // Variaveis de distância
+            //Debug.Log("Distancia faltante " + _navmesh.remainingDistance);
+            //Debug.Log("Distancia parada " + _navmesh.stoppingDistance);
+        }
+
+        void UpdateAnimator()
+        {
+            Vector3 velocity = _navmesh.velocity;
+            Vector3 localVelocity = transform.InverseTransformDirection(velocity);
+            float speed = localVelocity.z;
+            _anim.SetFloat("movingForward", speed);
+
+        }
+
+        public void MoveToDestination(Vector3 destination)
+        {
+            //_navmesh.destination = destination;
+            _navmesh.SetDestination(destination);
+            _navmesh.isStopped = false;
+        }
+
+        public void StartMoveAction(Vector3 destination)
+        {
+            _scheduler.StartAction(this);
+            MoveToDestination(destination);
+        }
+
+        public void Cancel()
+        {
+            _navmesh.isStopped = true;
+        }
+    }
+}
