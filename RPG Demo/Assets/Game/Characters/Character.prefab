@@ -57,6 +57,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e595b394b0c55f44197e7ccd9c200c47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxSpeed: 5.66
 --- !u!195 &1223516330
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -110,9 +111,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 067cf4bf83277b24aae3b3329c59131b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _range: 2
-  _breath: 1
-  _damage: 25
+  _distanceRange: 1.8
+  _breath: 1.3
+  _damage: 10
 --- !u!114 &320015658
 MonoBehaviour:
   m_ObjectHideFlags: 0

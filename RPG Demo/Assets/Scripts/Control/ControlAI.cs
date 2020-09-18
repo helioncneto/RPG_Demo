@@ -11,6 +11,11 @@ namespace RPG.Control
     public class ControlAI : MonoBehaviour
     {
         [SerializeField] private float _pursuitRange = 5f;
+        [SerializeField] float _suspiciousTime = 4f;
+        [SerializeField] PatrolPaths patrolPaths;
+        [Range(0, 1)]
+        [SerializeField] private float _PatrolFractionSpeed = 0.5f;
+
         GameObject _player;
         private Mover _mover;
         private Fighter _fighter;
@@ -18,9 +23,6 @@ namespace RPG.Control
         private ActionScheduler _scheduler;
         Vector3 _guardPosition;
         private float _lastTimePlayerSaw = Mathf.Infinity;
-        [SerializeField] float _suspiciousTime = 4f;
-        [SerializeField] PatrolPaths patrolPaths;
-
         private float _waypointTolerance = 1f;
         private int _currentWaypoint = 0;
         private float _timeToHoldInPatrol = Mathf.Infinity;
@@ -62,7 +64,7 @@ namespace RPG.Control
         private void PatrolBehavior()
         {
             Vector3 nextPosition = _guardPosition;
-            if(patrolPaths != null)
+            if (patrolPaths != null)
             {
                 if (atWaypoint())
                 {
@@ -78,12 +80,10 @@ namespace RPG.Control
                     }
                     
                 }
-                
-
                 nextPosition = GetCurrentPosition();
             }
 
-            _mover.StartMoveAction(nextPosition);
+            _mover.StartMoveAction(nextPosition, _PatrolFractionSpeed);
         }
 
         private float GetTimeToWait(float min, float max)

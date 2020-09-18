@@ -99,6 +99,7 @@ namespace RPG.Combat
         {
             _anim.SetTrigger("stopAttack");
             target = null;
+            _mover.Cancel();
         }
 
         public void Attack(GameObject combatTarget)
