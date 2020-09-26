@@ -16,8 +16,15 @@ namespace RPG.Control
         void Awake()
         {
             _mover = GetComponent<Mover>();
+            if(_mover == null)
+            {
+                Debug.LogError("Mover is Null");
+            }
             _fighter = GetComponent<Fighter>();
-
+            if(_fighter == null)
+            {
+                Debug.LogError("Fighter is Null");
+            }
             _playerHealth = GetComponent<Health>();
             if (_playerHealth == null)
             {

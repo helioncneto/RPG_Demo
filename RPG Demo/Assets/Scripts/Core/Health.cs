@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using RPG.Saving;
 
 namespace RPG.Core
 {
-    public class Health : MonoBehaviour
+    public class Health : MonoBehaviour, ISaveable
     {
 
         [SerializeField] float _health = 100f;
@@ -26,7 +27,7 @@ namespace RPG.Core
         {
             _health = Mathf.Max(_health - damage, 0);
             print(_health);
-            if(_health == 0)
+            if(_health <= 0)
             {
                 Die();
             }
@@ -41,6 +42,20 @@ namespace RPG.Core
                 _scheduler.CancelCurrentAction();
             }
 
+        }
+
+        public object GetStates()
+        {
+            return _health;
+        }
+
+        public void RestoreState(object state)
+        {
+            _health = (float)state;
+            if(_health <= 0)
+            {
+                Die();
+            }
         }
     }
 }

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using RPG.Core;
+using RPG.Saving;
 
 namespace RPG.Movement
 {
-    public class Mover : MonoBehaviour, IAction
+    public class Mover : MonoBehaviour, IAction, ISaveable
     {
 
         private NavMeshAgent _navmesh;
@@ -76,6 +77,22 @@ namespace RPG.Movement
         public void Cancel()
         {
             _navmesh.isStopped = true;
+        }
+
+        public object GetStates()
+        {
+            //Talvez seja melhor desabilitar o NavMeshAgent fora dessa função.
+            return new SerializableVector3(transform.position);
+        }
+
+        public void RestoreState(object state)
+        {
+            //Talvez seja melhor desabilitar o NavMeshAgent fora dessa função.
+            _navmesh.enabled = false;
+            SerializableVector3 position = (SerializableVector3) state;
+            transform.position = position.ToVector3();
+            _navmesh.enabled = true;
+            _scheduler.CancelCurrentAction();
         }
     }
 }

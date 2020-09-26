@@ -10,15 +10,19 @@ namespace RPG.Combat
     {
         Health target;
         private Mover _mover;
-        [SerializeField] private float _distanceRange = 2f;
         ActionScheduler _scheduler;
         private Animator _anim;
         [SerializeField] float _breath = 1f;
-        [SerializeField] float _damage = 25f;
+        //[SerializeField] float _damage = 25f;
+        //[SerializeField] private float _distanceRange = 2f;
         float _currentTime = 0;
         float _attackTime = 0;
+        [SerializeField] Transform _rightHandTransform;
+        [SerializeField] Transform _leftHandTransform;
+        [SerializeField] Weapon defaultWeapon;
+        Weapon currentWeapon;
 
-        private void Start()
+        private void Awake()
         {
             _mover = GetComponent<Mover>();
             if (_mover == null)
@@ -40,6 +44,12 @@ namespace RPG.Combat
             
         }
 
+        private void Start()
+        {
+            currentWeapon = defaultWeapon;
+            EquipWeapon(currentWeapon);
+        }
+
         private void Update()
         {
             _currentTime = Time.time;
@@ -54,9 +64,7 @@ namespace RPG.Combat
                 else
                 {
                     _mover.Cancel();
-                    AttackBeahvior();
-                    
-                    
+                    AttackBeahvior();  
                 }
             }
             
@@ -86,13 +94,26 @@ namespace RPG.Combat
         {
             if(target != null)
             {
-                target.TakeDamage(_damage);
+                // Se a arma tiver projetil, ira lancar o projetil. Senao ele vai atacar
+                if (currentWeapon.HasProjectile())
+                {
+                    currentWeapon.LauchProjectile(_rightHandTransform, _leftHandTransform, target, GetComponent<Collider>());
+                }
+                else
+                {
+                    target.TakeDamage(currentWeapon.GetWeaponDamage());
+                }
             }
+        }
+
+        void Shoot()
+        {
+            Hit();
         }
 
         private bool GetInRange()
         {
-            return Vector3.Distance(transform.position, target.transform.position) < _distanceRange;
+            return Vector3.Distance(transform.position, target.transform.position) < currentWeapon.GetWeaponRange();
         }
 
         public void Cancel()
@@ -108,5 +129,13 @@ namespace RPG.Combat
             target = combatTarget.transform.GetComponent<Health>();
         }
 
+        public void EquipWeapon(Weapon weapon)
+        {
+            currentWeapon = weapon;
+            if (weapon != null)
+            {
+                weapon.SpawnWeapon(_anim, _rightHandTransform, _leftHandTransform);
+            }
+        }
     }
 }
