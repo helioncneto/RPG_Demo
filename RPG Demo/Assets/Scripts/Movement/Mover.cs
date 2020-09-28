@@ -36,6 +36,7 @@ namespace RPG.Movement
             }
         }
 
+
         void Update()
         {
             UpdateAnimator();

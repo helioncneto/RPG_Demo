@@ -12,6 +12,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArrowProjectileIce
       objectReference: {fileID: 0}
+    - target: {fileID: 1410401462587243758, guid: fdd8c3cb7c439824ca18460bcc29cce2,
+        type: 3}
+      propertyPath: isHomingProjectile
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410401462587243758, guid: fdd8c3cb7c439824ca18460bcc29cce2,
+        type: 3}
+      propertyPath: _hitImpact
+      value: 
+      objectReference: {fileID: 8909875323256651191, guid: e63224a75bf7df04985933ef28c848dc,
+        type: 3}
     - target: {fileID: 1762367101316972046, guid: fdd8c3cb7c439824ca18460bcc29cce2,
         type: 3}
       propertyPath: m_LocalPosition.x

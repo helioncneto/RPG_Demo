@@ -20,7 +20,10 @@ namespace RPG.Combat
         [SerializeField] Transform _rightHandTransform;
         [SerializeField] Transform _leftHandTransform;
         [SerializeField] Weapon defaultWeapon;
+        [SerializeField] string defaultWeaponName = "Unarmed";
         Weapon currentWeapon;
+
+
 
         private void Awake()
         {
@@ -46,8 +49,13 @@ namespace RPG.Combat
 
         private void Start()
         {
-            currentWeapon = defaultWeapon;
-            EquipWeapon(currentWeapon);
+            Weapon weapon = Resources.Load<Weapon>(defaultWeaponName);
+            EquipWeapon(weapon);
+            currentWeapon = weapon;
+            //print(defaultWeapon);
+            //currentWeapon = defaultWeapon;
+            
+            EquipWeapon(weapon);
         }
 
         private void Update()

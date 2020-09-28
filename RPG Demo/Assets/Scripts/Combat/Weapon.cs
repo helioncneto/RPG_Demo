@@ -18,18 +18,25 @@ namespace RPG.Combat
 
         public void SpawnWeapon(Animator animator, Transform rightHandTransform, Transform leftHandTransform)
         {
-            if(weaponPrefab != null)
+            // Remover a arma antiga, mesmo que a arma atual nao tenha um gameobject
+            DestroyOldWeapon(rightHandTransform, leftHandTransform);
+
+            if (weaponPrefab != null)
             {
-                DestroyOldWeapon(rightHandTransform, leftHandTransform);
                 // Ira instanciar a arma na mao do player
                 GameObject weapon = Instantiate(weaponPrefab, GetHandTransform(rightHandTransform, leftHandTransform));
                 weapon.name = weaponName;
             }
-  
+            // Aqui chaca se o animator atual e um controlleroveride. Se nao for retorna null
+            var ControllerOveride = animator.runtimeAnimatorController as AnimatorOverrideController;
             if (animatorOverride != null)
             {
                 // verifica se vai ter animator overrid
                 animator.runtimeAnimatorController = animatorOverride;
+            } else if(ControllerOveride != null)
+            {
+                // Se o ControllerOveride nao for nulo, entao o animator atual e um override, entao deve trocar para o controller padrao.
+                animator.runtimeAnimatorController = ControllerOveride.runtimeAnimatorController;
             }
 
         }
