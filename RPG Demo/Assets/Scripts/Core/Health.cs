@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using RPG.Saving;
+using System;
 
 namespace RPG.Core
 {
@@ -11,11 +12,16 @@ namespace RPG.Core
         private Animator _anim;
         private bool _isDead;
         ActionScheduler _scheduler;
+        CapsuleCollider _collider;
+
+        float _heightAfterDead = 0.6f;
+        float _yAxisAfterDead = 0.2f;
 
         private void Awake()
         {
             _anim = GetComponent<Animator>();
             _scheduler = GetComponent<ActionScheduler>();
+            _collider = GetComponent<CapsuleCollider>();
         }
 
         public bool IsDead()
@@ -40,8 +46,21 @@ namespace RPG.Core
                 _anim.SetTrigger("die");
                 _isDead = true;
                 _scheduler.CancelCurrentAction();
+                AdjustCollider();
             }
 
+        }
+
+        private void AdjustCollider()
+        {
+            if(_collider != null)
+            {
+                _collider.height = _heightAfterDead;
+                Vector3 centerCollider = _collider.center;
+                centerCollider.y = _yAxisAfterDead;
+                _collider.center = centerCollider;
+            }
+            
         }
 
         public object GetStates()

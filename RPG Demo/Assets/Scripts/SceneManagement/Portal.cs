@@ -33,7 +33,7 @@ namespace RPG.SceneManagement
         {
             if (other.CompareTag("Player"))
             {
-                StartCoroutine("Transition");
+                StartCoroutine(Transition());
             }
         }
 

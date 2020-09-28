@@ -29,7 +29,7 @@ namespace RPG.Combat
                 if (isHomingProjectile && !target.IsDead())
                 {
                     //Se colocar o lookAt aqui a flexa vai perseguir o alvo.
-                    transform.LookAt(GetTargetPosition());
+                    transform.LookAt(GetTargetPosition(target));
                 }
                 transform.Translate(Vector3.forward * _speed * Time.deltaTime);
             }
@@ -42,21 +42,21 @@ namespace RPG.Combat
             target = setTarget;
             projectileDamage = damage;
             shooter = shooterCollider;
-            transform.LookAt(GetTargetPosition());
+            transform.LookAt(GetTargetPosition(target));
         }
 
-        private Vector3 GetTargetPosition()
+        private Vector3 GetTargetPosition(Health targetToGetPosition)
         {
-            CapsuleCollider targetCapsule = target.GetComponent<CapsuleCollider>();
+            CapsuleCollider targetCapsule = targetToGetPosition.GetComponent<CapsuleCollider>();
             if (targetCapsule == null)
             {
-                return target.transform.position;
+                return targetToGetPosition.transform.position;
             }
             else
             {
                 // Retorna a posiçãod o meio do capsule collider
                 Vector3 offset = Vector3.up * targetCapsule.height / 2;
-                return target.transform.position + offset;
+                return targetToGetPosition.transform.position + offset;
             }
         }
 
@@ -65,10 +65,17 @@ namespace RPG.Combat
             if (other != shooter)
             {
                 Health targetHealth = other.transform.GetComponent<Health>();
-                if (target.IsDead()) return;
                 if (targetHealth != null)
                 {
+                    if (targetHealth.IsDead()) return;
                     targetHealth.TakeDamage(projectileDamage);
+                }
+                else
+                {
+                    // Caso o projetil acerte outra coisa, irá reproduzir o impacto e se destruir
+                    Instantiate(_hitImpact, transform.position, transform.rotation);
+                    Destroy(gameObject);
+                    return;
                 }
 
                 // Para o movimento do projetil para que o tail possa se destruir aos poucos
@@ -76,7 +83,7 @@ namespace RPG.Combat
 
                 if (_hitImpact != null)
                 {
-                    Instantiate(_hitImpact, GetTargetPosition(), transform.rotation);
+                    Instantiate(_hitImpact, GetTargetPosition(targetHealth), transform.rotation);
 
                 }
                 if (_destroyAfterImpact.Length > 0)
