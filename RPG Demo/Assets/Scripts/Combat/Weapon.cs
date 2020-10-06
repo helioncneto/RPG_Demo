@@ -1,4 +1,4 @@
-﻿using RPG.Core;
+﻿using RPG.Resources;
 using System;
 using UnityEngine;
 
@@ -13,6 +13,7 @@ namespace RPG.Combat
         [SerializeField] float weaponRange = 2f;
         [SerializeField] bool isRightHandWeapon = true;
         [SerializeField] Projectile projectile;
+
 
         const string weaponName = "Weapon";
 

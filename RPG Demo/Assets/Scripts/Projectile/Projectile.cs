@@ -1,4 +1,4 @@
-﻿using RPG.Core;
+﻿using RPG.Resources;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -68,7 +68,7 @@ namespace RPG.Combat
                 if (targetHealth != null)
                 {
                     if (targetHealth.IsDead()) return;
-                    targetHealth.TakeDamage(projectileDamage);
+                    targetHealth.TakeDamage(projectileDamage,shooter.gameObject);
                 }
                 else
                 {

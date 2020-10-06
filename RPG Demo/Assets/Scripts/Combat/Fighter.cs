@@ -4,6 +4,7 @@ using UnityEngine;
 using RPG.Movement;
 using RPG.Core;
 using RPG.Saving;
+using RPG.Resources;
 
 namespace RPG.Combat
 {
@@ -97,6 +98,11 @@ namespace RPG.Combat
             return combatTarget != null && !targetHealth.IsDead();
         }
 
+        public Health GetTarget()
+        {
+            return target;
+        }
+
         // Função chamada pelo animator
         void Hit()
         {
@@ -109,7 +115,7 @@ namespace RPG.Combat
                 }
                 else
                 {
-                    target.TakeDamage(currentWeapon.GetWeaponDamage());
+                    target.TakeDamage(currentWeapon.GetWeaponDamage(), gameObject);
                 }
             }
         }
@@ -154,7 +160,7 @@ namespace RPG.Combat
         public void RestoreState(object state)
         {
             string restoredWeaponName = (string)state;
-            Weapon weapon = Resources.Load<Weapon>(restoredWeaponName);
+            Weapon weapon = UnityEngine.Resources.Load<Weapon>(restoredWeaponName);
             EquipWeapon(weapon);
         }
     }

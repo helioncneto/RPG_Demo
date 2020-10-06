@@ -2,8 +2,10 @@
 using System.Collections;
 using RPG.Saving;
 using System;
+using RPG.Core;
+using RPG.Stats;
 
-namespace RPG.Core
+namespace RPG.Resources
 {
     public class Health : MonoBehaviour, ISaveable
     {
@@ -22,6 +24,12 @@ namespace RPG.Core
             _anim = GetComponent<Animator>();
             _scheduler = GetComponent<ActionScheduler>();
             _collider = GetComponent<CapsuleCollider>();
+            _health = GetComponent<BaseStats>().GetStat(Stat.Health);
+        }
+
+        private void Start()
+        {
+            //_health = GetComponent<BaseStats>().GetHealth();
         }
 
         public bool IsDead()
@@ -29,13 +37,23 @@ namespace RPG.Core
             return _isDead;
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, GameObject instigator)
         {
             _health = Mathf.Max(_health - damage, 0);
-            print(_health);
+            //print(_health);
             if(_health <= 0)
             {
+                AwardExperience(instigator);
                 Die();
+            }
+        }
+
+        private void AwardExperience(GameObject instigator)
+        {
+            Experience experience = instigator.GetComponent<Experience>();
+            if(experience != null)
+            {
+                experience.GainExperience(GetComponent<BaseStats>().GetStat(Stat.ExperienceReward));
             }
         }
 
@@ -75,6 +93,11 @@ namespace RPG.Core
             {
                 Die();
             }
+        }
+
+        public float GetPercentage()
+        {
+            return 100 * (_health / GetComponent<BaseStats>().GetStat(Stat.Health));
         }
     }
 }
