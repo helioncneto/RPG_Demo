@@ -8,20 +8,21 @@ namespace RPG.Resources
     {
         Health health;
         Text healthText;
-        float percentage = 100;
+        //float percentage = 100;
 
         private void Awake()
         {
             health = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
             healthText = GetComponent<Text>();
-            percentage = health.GetPercentage();
+            //percentage = health.GetPercentage();
         }
 
         private void Update()
         {
-            percentage = health.GetPercentage();
+            //percentage = health.GetPercentage();
             // "{0:0}%" -> Remove decimais
-            healthText.text = String.Format("{0:0}%", percentage);
+            //healthText.text = String.Format("{0:0}%", percentage);
+            healthText.text = String.Format("{0:0}/{1:0}", health.GetHealth(), health.GetMaxHealthPoints());
         }
 
 

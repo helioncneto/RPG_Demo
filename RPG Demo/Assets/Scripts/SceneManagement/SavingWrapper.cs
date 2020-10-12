@@ -10,17 +10,20 @@ namespace RPG.SceneManagement
         const string saveFile = "save";
         SavingSystem _savingSystem;
         [SerializeField] float _fadeInTime = .3f;
+        [SerializeField] float _waitForFadeIn = 1f;
 
         private void Awake()
         {
             _savingSystem = GetComponent<SavingSystem>();
+            StartCoroutine(LoadLastScene());
         }
 
-        private IEnumerator Start()
+        private IEnumerator LoadLastScene()
         {
             Fader fader = FindObjectOfType<Fader>();
             fader.FadeOutImmediate();
             yield return _savingSystem.LoadLastScene(saveFile);
+            yield return new WaitForSeconds(_waitForFadeIn);
             yield return fader.FadeIn(_fadeInTime);
         }
 
@@ -34,6 +37,10 @@ namespace RPG.SceneManagement
             {
                 Load();
             }
+            else if (Input.GetKeyDown(KeyCode.D))
+            {
+                Delete();
+            }
         }
 
         public void Load()
@@ -44,6 +51,11 @@ namespace RPG.SceneManagement
         public void Save()
         {
             _savingSystem.Save(saveFile);
+        }
+
+        public void Delete()
+        {
+            _savingSystem.Delete(saveFile);
         }
     }
 }

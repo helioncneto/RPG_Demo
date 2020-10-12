@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,25 +9,45 @@ namespace RPG.Stats
     public class Progression : ScriptableObject
     {
         [SerializeField] CharacterLevels[] classesAvailble;
+        Dictionary<CharacterClass, Dictionary<Stat, float[]>> lookupTable;
 
         public float GetClassStat(Stat stat, CharacterClass characterClass, int level)
         {
-            foreach (CharacterLevels characterLevels in classesAvailble)
+            BuildLookupTable();
+            float[] levels = lookupTable[characterClass][stat];
+            if(levels.Length < level)
             {
-                if (characterLevels.characterClass == characterClass)
+                return 0;
+            }
+            else
+            {
+                return levels[level - 1];
+            }
+        }
+
+        public int GetLastLevel(Stat stat, CharacterClass characterClass)
+        {
+            BuildLookupTable();
+            float[] levels = lookupTable[characterClass][stat];
+            return levels.Length;
+
+        }
+
+        private void BuildLookupTable()
+        {
+            if(lookupTable == null)
+            {
+                lookupTable = new Dictionary<CharacterClass, Dictionary<Stat, float[]>>();
+                foreach (CharacterLevels characterLevels in classesAvailble)
                 {
-                    foreach(ProgressionStats progressionStat in characterLevels.stats)
+                    Dictionary<Stat, float[]> currentStat = new Dictionary<Stat, float[]>();
+                    foreach (ProgressionStats progressionStat in characterLevels.stats)
                     {
-                        if (level > progressionStat.levels.Length) continue;
-                        if(progressionStat.stat == stat)
-                        {
-                            return progressionStat.levels[level - 1];
-                        }
+                        currentStat[progressionStat.stat] = progressionStat.levels;
                     }
-                    //return characterLevels.health[level - 1]
+                    lookupTable[characterLevels.characterClass] = currentStat;
                 }
             }
-            return 0;
         }
 
         [System.Serializable]

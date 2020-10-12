@@ -10,6 +10,7 @@ namespace RPG.Combat
         [SerializeField] GameObject weaponPrefab;
         [SerializeField] AnimatorOverrideController animatorOverride;
         [SerializeField] float weaponDamage = 25f;
+        [SerializeField] float weaponPercentageBonus = 0;
         [SerializeField] float weaponRange = 2f;
         [SerializeField] bool isRightHandWeapon = true;
         [SerializeField] Projectile projectile;
@@ -60,13 +61,18 @@ namespace RPG.Combat
             return projectile != null;
         }
 
-        public void LauchProjectile(Transform rightHand, Transform leftHand, Health target, Collider shooter)
+        public void LauchProjectile(Transform rightHand, Transform leftHand, Health target, Collider shooter, float calculatedDamage)
         {
             // Irá instanciar o projetil
             Projectile spawnedProjectile = Instantiate(projectile, GetHandTransform(rightHand, leftHand).position, Quaternion.identity);
             // seta o alvo
-            spawnedProjectile.SetTarget(target, weaponDamage, shooter);
+            spawnedProjectile.SetTarget(target, calculatedDamage, shooter);
 
+        }
+
+        public float GetPercentagteBonus()
+        {
+            return weaponPercentageBonus;
         }
 
         private Transform GetHandTransform(Transform rightHand, Transform leftHand)

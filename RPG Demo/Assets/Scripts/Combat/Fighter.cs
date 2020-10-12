@@ -5,23 +5,25 @@ using RPG.Movement;
 using RPG.Core;
 using RPG.Saving;
 using RPG.Resources;
+using RPG.Stats;
 
 namespace RPG.Combat
 {
-    public class Fighter : MonoBehaviour, IAction, ISaveable
+    public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
     {
+        [SerializeField] Transform _rightHandTransform;
+        [SerializeField] Transform _leftHandTransform;
+        [SerializeField] Weapon defaultWeapon;
+        [SerializeField] float _breath = 1f;
         Health target;
         private Mover _mover;
         ActionScheduler _scheduler;
         private Animator _anim;
-        [SerializeField] float _breath = 1f;
         //[SerializeField] float _damage = 25f;
         //[SerializeField] private float _distanceRange = 2f;
         float _currentTime = 0;
         float _attackTime = 0;
-        [SerializeField] Transform _rightHandTransform;
-        [SerializeField] Transform _leftHandTransform;
-        [SerializeField] Weapon defaultWeapon;
+        private BaseStats _baseStats;
         //[SerializeField] string defaultWeaponName = "Unarmed";
         Weapon currentWeapon;
 
@@ -46,7 +48,12 @@ namespace RPG.Combat
                 Debug.LogError("Animator is Null");
             }
 
-            
+            _baseStats = GetComponent<BaseStats>();
+            if (_baseStats == null)
+            {
+                Debug.LogError("BaseStats is Null");
+            }
+
         }
 
         private void Start()
@@ -106,16 +113,18 @@ namespace RPG.Combat
         // Função chamada pelo animator
         void Hit()
         {
+            float damage = _baseStats.GetStat(Stat.Damage);
+            //float damage = 10f;
             if(target != null)
             {
                 // Se a arma tiver projetil, ira lancar o projetil. Senao ele vai atacar
                 if (currentWeapon.HasProjectile())
                 {
-                    currentWeapon.LauchProjectile(_rightHandTransform, _leftHandTransform, target, GetComponent<Collider>());
+                    currentWeapon.LauchProjectile(_rightHandTransform, _leftHandTransform, target, GetComponent<Collider>(), damage);
                 }
                 else
                 {
-                    target.TakeDamage(currentWeapon.GetWeaponDamage(), gameObject);
+                    target.TakeDamage(damage, gameObject);
                 }
             }
         }
@@ -162,6 +171,22 @@ namespace RPG.Combat
             string restoredWeaponName = (string)state;
             Weapon weapon = UnityEngine.Resources.Load<Weapon>(restoredWeaponName);
             EquipWeapon(weapon);
+        }
+
+        public IEnumerable<float> GetAdditiveModifier(Stat stat)
+        {
+            if(stat == Stat.Damage)
+            {
+                yield return currentWeapon.GetWeaponDamage();
+            }
+        }
+
+        public IEnumerable<float> GetPercentageModifiers(Stat stat)
+        {
+            if (stat == Stat.Damage)
+            {
+                yield return currentWeapon.GetPercentagteBonus();
+            }
         }
     }
 }
