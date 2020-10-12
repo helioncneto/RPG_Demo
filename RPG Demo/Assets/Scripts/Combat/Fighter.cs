@@ -6,6 +6,8 @@ using RPG.Core;
 using RPG.Saving;
 using RPG.Resources;
 using RPG.Stats;
+using GameDevTV.Utils;
+using System;
 
 namespace RPG.Combat
 {
@@ -25,7 +27,7 @@ namespace RPG.Combat
         float _attackTime = 0;
         private BaseStats _baseStats;
         //[SerializeField] string defaultWeaponName = "Unarmed";
-        Weapon currentWeapon;
+        LazyValue<Weapon> currentWeapon;
 
 
 
@@ -53,16 +55,12 @@ namespace RPG.Combat
             {
                 Debug.LogError("BaseStats is Null");
             }
-
+            currentWeapon = new LazyValue<Weapon>(GetDeafultWeapon);
         }
 
         private void Start()
         {
-            
-            if(currentWeapon == null)
-            {
-                EquipWeapon(defaultWeapon);
-            }
+            currentWeapon.ForceInit();
            
         }
 
@@ -118,9 +116,9 @@ namespace RPG.Combat
             if(target != null)
             {
                 // Se a arma tiver projetil, ira lancar o projetil. Senao ele vai atacar
-                if (currentWeapon.HasProjectile())
+                if (currentWeapon.value.HasProjectile())
                 {
-                    currentWeapon.LauchProjectile(_rightHandTransform, _leftHandTransform, target, GetComponent<Collider>(), damage);
+                    currentWeapon.value.LauchProjectile(_rightHandTransform, _leftHandTransform, target, GetComponent<Collider>(), damage);
                 }
                 else
                 {
@@ -136,7 +134,7 @@ namespace RPG.Combat
 
         private bool GetInRange()
         {
-            return Vector3.Distance(transform.position, target.transform.position) < currentWeapon.GetWeaponRange();
+            return Vector3.Distance(transform.position, target.transform.position) < currentWeapon.value.GetWeaponRange();
         }
 
         public void Cancel()
@@ -154,7 +152,18 @@ namespace RPG.Combat
 
         public void EquipWeapon(Weapon weapon)
         {
-            currentWeapon = weapon;
+            currentWeapon.value = weapon;
+            AttachWeapon(weapon);
+        }
+
+        private Weapon GetDeafultWeapon()
+        {
+            AttachWeapon(defaultWeapon);
+            return defaultWeapon;
+        }
+
+        private void AttachWeapon(Weapon weapon)
+        {
             if (weapon != null)
             {
                 weapon.SpawnWeapon(_anim, _rightHandTransform, _leftHandTransform);
@@ -163,7 +172,7 @@ namespace RPG.Combat
 
         public object GetStates()
         {
-            return currentWeapon.name;
+            return currentWeapon.value.name;
         }
 
         public void RestoreState(object state)
@@ -177,7 +186,7 @@ namespace RPG.Combat
         {
             if(stat == Stat.Damage)
             {
-                yield return currentWeapon.GetWeaponDamage();
+                yield return currentWeapon.value.GetWeaponDamage();
             }
         }
 
@@ -185,7 +194,7 @@ namespace RPG.Combat
         {
             if (stat == Stat.Damage)
             {
-                yield return currentWeapon.GetPercentagteBonus();
+                yield return currentWeapon.value.GetPercentagteBonus();
             }
         }
     }

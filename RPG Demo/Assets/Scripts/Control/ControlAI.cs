@@ -6,6 +6,7 @@ using RPG.Combat;
 using RPG.Core;
 using System;
 using RPG.Resources;
+using GameDevTV.Utils;
 
 namespace RPG.Control
 {
@@ -22,7 +23,7 @@ namespace RPG.Control
         private Fighter _fighter;
         private Health _health;
         private ActionScheduler _scheduler;
-        Vector3 _guardPosition;
+        LazyValue<Vector3> _guardPosition;
         private float _lastTimePlayerSaw = Mathf.Infinity;
         private float _waypointTolerance = 1f;
         private int _currentWaypoint = 0;
@@ -38,9 +39,18 @@ namespace RPG.Control
             _fighter = GetComponent<Fighter>();
             _health = GetComponent<Health>();
             _scheduler = GetComponent<ActionScheduler>();
-            
-            _guardPosition = transform.position;
             _timeToHoldInPatrol = GetTimeToWait(_minTimeToWait, _maxTimeToWait);
+            _guardPosition = new LazyValue<Vector3>(GetDefaultPosition);
+        }
+
+        private Vector3 GetDefaultPosition()
+        {
+            return transform.position;
+        }
+
+        private void Start()
+        {
+            _guardPosition.ForceInit();
         }
 
         private void Update()
@@ -64,7 +74,7 @@ namespace RPG.Control
 
         private void PatrolBehavior()
         {
-            Vector3 nextPosition = _guardPosition;
+            Vector3 nextPosition = _guardPosition.value;
             if (patrolPaths != null)
             {
                 if (atWaypoint())

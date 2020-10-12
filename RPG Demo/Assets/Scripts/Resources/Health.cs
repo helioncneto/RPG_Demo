@@ -4,13 +4,14 @@ using RPG.Saving;
 using System;
 using RPG.Core;
 using RPG.Stats;
+using GameDevTV.Utils;
 
 namespace RPG.Resources
 {
     public class Health : MonoBehaviour, ISaveable
     {
 
-        [SerializeField] float _health = -1f;
+        LazyValue<float> _health;
         [SerializeField] int percentageLevelUp = 50;
         private Animator _anim;
         private bool _isDead;
@@ -28,15 +29,26 @@ namespace RPG.Resources
             _collider = GetComponent<CapsuleCollider>();
             _baseStats = GetComponent<BaseStats>();
             // Impossibilita o erro de incializar os pontos de vida depois de restaura-los
-            if (_health < 0)
-            {
-                _health = GetComponent<BaseStats>().GetStat(Stat.Health);
-            }
+            //if (_health < 0)
+            //{
+            //    _health = GetComponent<BaseStats>().GetStat(Stat.Health);
+            //}
+            _health = new LazyValue<float>(GetInitialHealth);
+        }
+
+        private void Start()
+        {
+            _health.ForceInit();
+        }
+
+        private float GetInitialHealth()
+        {
+            return GetComponent<BaseStats>().GetStat(Stat.Health);
         }
 
         public float GetHealth()
         {
-            return _health;
+            return _health.value;
         }
 
         public float GetMaxHealthPoints()
@@ -44,9 +56,14 @@ namespace RPG.Resources
             return _baseStats.GetStat(Stat.Health);
         }
 
-        private void Start()
+        private void OnEnable()
         {
             _baseStats.onLevelUp += levelUpHealth;
+        }
+
+        private void OnDisable()
+        {
+            _baseStats.onLevelUp -= levelUpHealth;
         }
 
         public bool IsDead()
@@ -57,9 +74,9 @@ namespace RPG.Resources
         public void TakeDamage(float damage, GameObject instigator)
         {
             print(gameObject.name + " took damage: " + damage);
-            _health = Mathf.Max(_health - damage, 0);
+            _health.value = Mathf.Max(_health.value - damage, 0);
             //print(_health);
-            if(_health <= 0)
+            if(_health.value <= 0)
             {
                 AwardExperience(instigator);
                 Die();
@@ -101,13 +118,13 @@ namespace RPG.Resources
 
         public object GetStates()
         {
-            return _health;
+            return _health.value;
         }
 
         public void RestoreState(object state)
         {
-            _health = (float)state;
-            if(_health <= 0)
+            _health.value = (float)state;
+            if(_health.value <= 0)
             {
                 Die();
             }
@@ -115,14 +132,14 @@ namespace RPG.Resources
 
         public float GetPercentage()
         {
-            return 100 * (_health / GetComponent<BaseStats>().GetStat(Stat.Health));
+            return 100 * (_health.value / GetComponent<BaseStats>().GetStat(Stat.Health));
         }
 
         private void levelUpHealth()
         {
             float maxHealth = _baseStats.GetStat(Stat.Health);
             float percentage = (maxHealth * percentageLevelUp) / 100;
-            _health = Mathf.Min(percentage + _health, maxHealth);
+            _health.value = Mathf.Min(percentage + _health.value, maxHealth);
         }
     }
 }
