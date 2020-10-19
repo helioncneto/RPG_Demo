@@ -55,6 +55,7 @@ namespace RPG.Stats
 
         public float GetStat(Stat stat)
         {
+            // Retorna o ponto de ataque adicionando o valor de dano da arma mais uma porcentagem bonus, se a arama tiver
             return (GetBaseStat(stat) + GetAditiveModifier(stat)) * (1 + GetPercentageModifiers(stat) / 100);
         }
 

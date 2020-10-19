@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using RPG.Movement;
 using RPG.Combat;
-using RPG.Resources;
+using RPG.Attributes;
 using System;
+using UnityEngine.EventSystems;
+using UnityEngine.AI;
 
 namespace RPG.Control
 {
@@ -14,12 +16,6 @@ namespace RPG.Control
         private Fighter _fighter;
         Health _playerHealth;
 
-        enum CursorType
-        {
-            None,
-            Combat,
-            Movement
-        }
         [System.Serializable]
         struct CursorMapping
         {
@@ -29,6 +25,8 @@ namespace RPG.Control
         }
 
         [SerializeField] CursorMapping[] cursorMappings;
+        [SerializeField] float naveMeshDistance = 1f;
+        [SerializeField] float maxDistance = 40f;
 
         void Awake()
         {
@@ -52,64 +50,104 @@ namespace RPG.Control
         // Update is called once per frame
         void Update()
         {
-            if (_playerHealth.IsDead()) return;
-            if (CombatInteraction()) return;
+            if (InteractWithUI())
+            {
+                SetCursor(CursorType.UI);
+                return;
+            }
+            if (_playerHealth.IsDead())
+            {
+                // Mudar o cursor em um futuro, talvez
+                SetCursor(CursorType.None);
+                return;
+            }
+            if (ComponentInteraction()) return;
             if (MovementInteraction())  return;
 
             SetCursor(CursorType.None);
         }
 
-        
-
-        private bool CombatInteraction()
+        private bool ComponentInteraction()
         {
-                RaycastHit[] hits = Physics.RaycastAll(GetRaycast());
-                foreach(RaycastHit hit in hits)
+            RaycastHit[] hits = RaycastAllSorted();
+            foreach (RaycastHit hit in hits)
+            {
+                IRaycastable[] raycastables = hit.transform.GetComponents<IRaycastable>();
+                foreach (IRaycastable raycastable in raycastables)
                 {
-                    CombatTarget target = hit.transform.GetComponent<CombatTarget>();
-                    if (target != null)
+                    if (raycastable.HandleRaycast(this))
                     {
-                        
-                            if (_fighter.CanAttack(target.gameObject))
-                            {
-                                if (Input.GetMouseButton(0))
-                                {
-                                    _fighter.Attack(target.gameObject);
-                                }
-                                SetCursor(CursorType.Combat);
-                                return true;
-                            }
-                            else
-                            {
-                                continue;
-                            }
-                            
-                        
+                        SetCursor(raycastable.GetCursorType());
+                        return true;
                     }
-                    else
-                    {
-                    continue;
-                    }
-                
                 }
-                return false;
-            
+            }
+            return false;
+        }
+
+        private RaycastHit[] RaycastAllSorted()
+        {
+            RaycastHit[] hits = Physics.RaycastAll(GetRaycast());
+            float[] distance = new float[hits.Length];
+            for(int i = 0; i < distance.Length; i++)
+            {
+                distance[i] = hits[i].distance;
+            }
+            Array.Sort(distance, hits);
+            return hits;
+        }
+
+        private bool InteractWithUI()
+        {
+            // Verifica se esta apontando para uma UI
+            return EventSystem.current.IsPointerOverGameObject();
         }
 
         private bool MovementInteraction()
         {
-            
-            bool isHit = Physics.Raycast(GetRaycast(), out RaycastHit hit);
+            bool isHit = RaycastNavMesh(out Vector3 target);    
             if (isHit)
             {
                 if (Input.GetMouseButton(0))
                 {
-                    _mover.StartMoveAction(hit.point);
+                    _mover.StartMoveAction(target);
                 }
                 SetCursor(CursorType.Movement);
                 return true;
             }
             return false;
+        }
+
+        private bool RaycastNavMesh(out Vector3 target)
+        {
+            target = new Vector3();
+
+            bool hasHit = Physics.Raycast(GetRaycast(), out RaycastHit hit);
+            if (!hasHit) return false;
+
+            target = hit.point;
+            bool hasNavMesh = NavMesh.SamplePosition(target, out NavMeshHit navMeshHit, naveMeshDistance, NavMesh.AllAreas);
+            if (!hasNavMesh) return false;
+
+            target = navMeshHit.position;
+            NavMeshPath navMeshPath = new NavMeshPath();
+            bool hasPath = NavMesh.CalculatePath(transform.position, target, NavMesh.AllAreas, navMeshPath);
+            if (!hasPath) return false;
+            if (navMeshPath.status != NavMeshPathStatus.PathComplete) return false;
+            if (CalculateDistante(navMeshPath) > maxDistance) return false; 
+            return true;
+            
+        }
+
+        private float CalculateDistante(NavMeshPath path)
+        {
+            float total = 0f;
+            if (path.corners.Length < 2) return total;
+            for(int i = 0; i < path.corners.Length -1; i++)
+            {
+                total += Vector3.Distance(path.corners[i], path.corners[i + 1]);
+            }
+            return total;
         }
 
         private void SetCursor(CursorType type)

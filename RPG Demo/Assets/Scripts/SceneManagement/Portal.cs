@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.AI;
 using RPG.Saving;
+using RPG.Control;
 
 namespace RPG.SceneManagement
 {
@@ -48,16 +49,28 @@ namespace RPG.SceneManagement
             
             DontDestroyOnLoad(gameObject);
             Fader fader = FindObjectOfType<Fader>();
+            // Desabilitar controle do jogador
+            ControlPlayer playerCurrent = GameObject.FindGameObjectWithTag("Player").GetComponent<ControlPlayer>();
+            playerCurrent.enabled = false;
+
             yield return fader.FadeOut(_fadeOutTime);
             _save.Save();
             yield return SceneManager.LoadSceneAsync(_sceneToLoad);
+            ControlPlayer playerNew = GameObject.FindGameObjectWithTag("Player").GetComponent<ControlPlayer>();
+            playerNew.enabled = false;
+
             _save.Load();
             Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal);
             // Aqui salva de novo para gravar a nova posição se player
             _save.Save();
             yield return new WaitForSeconds(_waitTime);
-            yield return fader.FadeIn(_fadeInTime);
+            // Essa linha sem o yield return não irá esperar o fade acabar para liberar o controle
+            fader.FadeIn(_fadeInTime);
+            
+            // Retorna o controle para o jogador
+            playerNew.enabled = true;
+
             Destroy(gameObject);
         }
 

@@ -1,4 +1,5 @@
-﻿using RPG.Saving;
+﻿using RPG.Control;
+using RPG.Saving;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,8 +24,14 @@ namespace RPG.SceneManagement
             yield return _savingSystem.LoadLastScene(saveFile);
             Fader fader = FindObjectOfType<Fader>();
             fader.FadeOutImmediate();
+
+            // Retira o controle do jogador assim que a cena é carregada
+            ControlPlayer playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<ControlPlayer>();
+            playerController.enabled = false;
+
             yield return new WaitForSeconds(_waitForFadeIn);
-            yield return fader.FadeIn(_fadeInTime);
+            fader.FadeIn(_fadeInTime);
+            playerController.enabled = true;
         }
 
         private void Update()

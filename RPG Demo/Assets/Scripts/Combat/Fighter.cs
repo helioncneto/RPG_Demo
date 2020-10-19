@@ -4,7 +4,7 @@ using UnityEngine;
 using RPG.Movement;
 using RPG.Core;
 using RPG.Saving;
-using RPG.Resources;
+using RPG.Attributes;
 using RPG.Stats;
 using GameDevTV.Utils;
 using System;
@@ -112,7 +112,6 @@ namespace RPG.Combat
         void Hit()
         {
             float damage = _baseStats.GetStat(Stat.Damage);
-            //float damage = 10f;
             if(target != null)
             {
                 // Se a arma tiver projetil, ira lancar o projetil. Senao ele vai atacar

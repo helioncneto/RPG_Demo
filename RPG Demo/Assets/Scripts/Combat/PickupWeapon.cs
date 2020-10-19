@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
+using RPG.Control;
 using UnityEngine;
 
 namespace RPG.Combat
 {
-    public class PickupWeapon : MonoBehaviour
+    public class PickupWeapon : MonoBehaviour, IRaycastable
     {
         [SerializeField] Weapon weapon;
         [SerializeField] float _timeForRespawn = 5;
@@ -26,10 +26,15 @@ namespace RPG.Combat
             
             if (other.CompareTag("Player"))
             {
-                other.GetComponent<Fighter>().EquipWeapon(weapon);
-                StartCoroutine(WaitForRespawn(_timeForRespawn));
-                //Destroy(gameObject);
+                Pickup(other.GetComponent<Fighter>());
             }
+        }
+
+        private void Pickup(Fighter fighter)
+        {
+            fighter.EquipWeapon(weapon);
+            StartCoroutine(WaitForRespawn(_timeForRespawn));
+            //Destroy(gameObject);
         }
 
         IEnumerator WaitForRespawn(float seconds)
@@ -43,6 +48,20 @@ namespace RPG.Combat
         {
             _collider.enabled = show;
             transform.GetChild(0).gameObject.SetActive(show);
+        }
+
+        public bool HandleRaycast(ControlPlayer player)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Pickup(player.transform.GetComponent<Fighter>());
+            }
+            return true;
+        }
+
+        public CursorType GetCursorType()
+        {
+            return CursorType.Pickup;
         }
     }
 }

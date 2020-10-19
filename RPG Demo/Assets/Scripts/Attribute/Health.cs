@@ -1,26 +1,33 @@
 ﻿using UnityEngine;
-using System.Collections;
 using RPG.Saving;
 using System;
 using RPG.Core;
 using RPG.Stats;
 using GameDevTV.Utils;
+using UnityEngine.Events;
 
-namespace RPG.Resources
+namespace RPG.Attributes
 {
     public class Health : MonoBehaviour, ISaveable
     {
 
-        LazyValue<float> _health;
+        
         [SerializeField] int percentageLevelUp = 50;
+        [SerializeField] TakeDamageEvent takeDamage;
         private Animator _anim;
         private bool _isDead;
         ActionScheduler _scheduler;
         CapsuleCollider _collider;
         BaseStats _baseStats;
+        LazyValue<float> _health;
 
         float _heightAfterDead = 0.6f;
         float _yAxisAfterDead = 0.2f;
+
+        [System.Serializable]
+        public class TakeDamageEvent : UnityEvent<float>
+        {
+        }
 
         private void Awake()
         {
@@ -73,9 +80,9 @@ namespace RPG.Resources
 
         public void TakeDamage(float damage, GameObject instigator)
         {
-            print(gameObject.name + " took damage: " + damage);
+            //print(gameObject.name + " took damage: " + damage);
             _health.value = Mathf.Max(_health.value - damage, 0);
-            //print(_health);
+            takeDamage.Invoke(damage);
             if(_health.value <= 0)
             {
                 AwardExperience(instigator);
@@ -132,7 +139,12 @@ namespace RPG.Resources
 
         public float GetPercentage()
         {
-            return 100 * (_health.value / GetComponent<BaseStats>().GetStat(Stat.Health));
+            return 100 * (GetHealthFraction());
+        }
+
+        public float GetHealthFraction()
+        {
+            return _health.value / GetComponent<BaseStats>().GetStat(Stat.Health);
         }
 
         private void levelUpHealth()
