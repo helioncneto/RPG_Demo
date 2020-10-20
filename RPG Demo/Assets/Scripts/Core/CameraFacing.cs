@@ -6,7 +6,7 @@ namespace RPG.Core
 {
     public class CameraFacing : MonoBehaviour
     {
-        void Update()
+        void LateUpdate()
         {
             // Faz com que o objeto aponte para a camera todo tempo
             transform.forward = Camera.main.transform.forward;

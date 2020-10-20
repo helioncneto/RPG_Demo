@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c083ad897d611464e8eb8fa8fc3cee72, type: 3}
   m_Name: IceBow
   m_EditorClassIdentifier: 
-  weaponPrefab: {fileID: 7739540855840170315, guid: 5c9a34830323ca842a451c1f8915af69,
+  weaponPrefab: {fileID: 4375784005630716495, guid: 5c9a34830323ca842a451c1f8915af69,
     type: 3}
   animatorOverride: {fileID: 22100000, guid: 8cd6cafe888af4b4ea40ca53d53fdc73, type: 2}
   weaponDamage: 15
+  weaponPercentageBonus: 0
   weaponRange: 10
   isRightHandWeapon: 0
   projectile: {fileID: 3094510296619180780, guid: 36ffcc16f287cfb44865c130f0667db1,

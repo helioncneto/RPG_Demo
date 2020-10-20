@@ -14,6 +14,7 @@ namespace RPG.Attributes
         
         [SerializeField] int percentageLevelUp = 50;
         [SerializeField] TakeDamageEvent takeDamage;
+        [SerializeField] UnityEvent onDie;
         private Animator _anim;
         private bool _isDead;
         ActionScheduler _scheduler;
@@ -48,11 +49,6 @@ namespace RPG.Attributes
             _health.ForceInit();
         }
 
-        private float GetInitialHealth()
-        {
-            return GetComponent<BaseStats>().GetStat(Stat.Health);
-        }
-
         public float GetHealth()
         {
             return _health.value;
@@ -61,16 +57,6 @@ namespace RPG.Attributes
         public float GetMaxHealthPoints()
         {
             return _baseStats.GetStat(Stat.Health);
-        }
-
-        private void OnEnable()
-        {
-            _baseStats.onLevelUp += levelUpHealth;
-        }
-
-        private void OnDisable()
-        {
-            _baseStats.onLevelUp -= levelUpHealth;
         }
 
         public bool IsDead()
@@ -90,6 +76,50 @@ namespace RPG.Attributes
             }
         }
 
+        public void Heal(float pointsToHeal)
+        {
+            _health.value = Mathf.Min(_health.value + pointsToHeal, GetMaxHealthPoints());
+        }
+
+        public object GetStates()
+        {
+            return _health.value;
+        }
+
+        public void RestoreState(object state)
+        {
+            _health.value = (float)state;
+            if (_health.value <= 0)
+            {
+                Die();
+            }
+        }
+
+        public float GetPercentage()
+        {
+            return 100 * (GetHealthFraction());
+        }
+
+        public float GetHealthFraction()
+        {
+            return _health.value / GetComponent<BaseStats>().GetStat(Stat.Health);
+        }
+
+        private float GetInitialHealth()
+        {
+            return GetComponent<BaseStats>().GetStat(Stat.Health);
+        }
+
+        private void OnEnable()
+        {
+            _baseStats.onLevelUp += levelUpHealth;
+        }
+
+        private void OnDisable()
+        {
+            _baseStats.onLevelUp -= levelUpHealth;
+        }
+
         private void AwardExperience(GameObject instigator)
         {
             Experience experience = instigator.GetComponent<Experience>();
@@ -104,6 +134,7 @@ namespace RPG.Attributes
             if (_isDead == false)
             {
                 _anim.SetTrigger("die");
+                onDie.Invoke();
                 _isDead = true;
                 _scheduler.CancelCurrentAction();
                 AdjustCollider();
@@ -121,30 +152,6 @@ namespace RPG.Attributes
                 _collider.center = centerCollider;
             }
             
-        }
-
-        public object GetStates()
-        {
-            return _health.value;
-        }
-
-        public void RestoreState(object state)
-        {
-            _health.value = (float)state;
-            if(_health.value <= 0)
-            {
-                Die();
-            }
-        }
-
-        public float GetPercentage()
-        {
-            return 100 * (GetHealthFraction());
-        }
-
-        public float GetHealthFraction()
-        {
-            return _health.value / GetComponent<BaseStats>().GetStat(Stat.Health);
         }
 
         private void levelUpHealth()
