@@ -112,12 +112,42 @@ PrefabInstance:
     - target: {fileID: 1345962458324110897, guid: 921302249f8b72a4f8bf4257c8396955,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1345962458324110897, guid: 921302249f8b72a4f8bf4257c8396955,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 2.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 1849131257790548607, guid: 921302249f8b72a4f8bf4257c8396955,
+        type: 3}
+      propertyPath: takeDamage.m_PersistentCalls.m_Calls.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1849131257790548607, guid: 921302249f8b72a4f8bf4257c8396955,
+        type: 3}
+      propertyPath: takeDamage.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1849131257790548607, guid: 921302249f8b72a4f8bf4257c8396955,
+        type: 3}
+      propertyPath: takeDamage.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1849131257790548607, guid: 921302249f8b72a4f8bf4257c8396955,
+        type: 3}
+      propertyPath: takeDamage.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 6520588225464918735}
+    - target: {fileID: 1849131257790548607, guid: 921302249f8b72a4f8bf4257c8396955,
+        type: 3}
+      propertyPath: takeDamage.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: Aggrevate
+      objectReference: {fileID: 0}
+    - target: {fileID: 1849131257790548607, guid: 921302249f8b72a4f8bf4257c8396955,
+        type: 3}
+      propertyPath: takeDamage.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 320015657, guid: 921302249f8b72a4f8bf4257c8396955, type: 3}
       propertyPath: _damage
@@ -248,16 +278,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 951315612532175059, guid: 37dd92afd6d635b418a771693d467a0a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7163821506422283692, guid: 37dd92afd6d635b418a771693d467a0a,
         type: 3}
       propertyPath: healthComponent
       value: 
       objectReference: {fileID: 695037899069786750}
+    - target: {fileID: 951315612532175059, guid: 37dd92afd6d635b418a771693d467a0a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37dd92afd6d635b418a771693d467a0a, type: 3}
 --- !u!1001 &9189956402849856159

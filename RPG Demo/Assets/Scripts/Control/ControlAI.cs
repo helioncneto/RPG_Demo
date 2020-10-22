@@ -14,9 +14,11 @@ namespace RPG.Control
     {
         [SerializeField] private float _pursuitRange = 5f;
         [SerializeField] float _suspiciousTime = 4f;
+        [SerializeField] float _aggrevateTime = 4f;
         [SerializeField] PatrolPaths patrolPaths;
         [Range(0, 1)]
         [SerializeField] private float _PatrolFractionSpeed = 0.5f;
+        [SerializeField] float _shoutDistance = 5f;
 
         GameObject _player;
         private Mover _mover;
@@ -29,6 +31,7 @@ namespace RPG.Control
         private int _currentWaypoint = 0;
         private float _timeToHoldInPatrol = Mathf.Infinity;
         private float _timeInTheWaypoint = Mathf.Infinity;
+        private float _timeSinceAggrevated = Mathf.Infinity;
         private float _minTimeToWait = .5f;
         private float _maxTimeToWait = 4f;
 
@@ -56,7 +59,7 @@ namespace RPG.Control
         private void Update()
         {
             if (_health.IsDead()) return;
-            if (IsPlayerInRange() && _fighter.CanAttack(_player))
+            if (IsAgrevated() && _fighter.CanAttack(_player))
             {
                 _lastTimePlayerSaw = 0;
                 AttackBehavior();
@@ -70,6 +73,12 @@ namespace RPG.Control
             {
                 PatrolBehavior();
             }
+        }
+
+        public void Aggrevate()
+        {
+            _timeSinceAggrevated = 0;
+
         }
 
         private void PatrolBehavior()
@@ -127,11 +136,25 @@ namespace RPG.Control
         private void AttackBehavior()
         {
             _fighter.Attack(_player);
+            AggrevateNearbyPartners();
         }
 
-        private bool IsPlayerInRange()
+        private void AggrevateNearbyPartners()
         {
-            return Vector3.Distance(transform.position, _player.transform.position) < _pursuitRange;
+            RaycastHit[] hits = Physics.SphereCastAll(transform.position, _shoutDistance, Vector3.up, 0);
+            foreach(RaycastHit hit in hits)
+            {
+                ControlAI partner = hit.transform.GetComponent<ControlAI>();
+                if(partner != null)
+                {
+                    partner.Aggrevate();
+                }
+            }
+        }
+
+        private bool IsAgrevated()
+        {
+            return Vector3.Distance(transform.position, _player.transform.position) < _pursuitRange || _timeSinceAggrevated < _aggrevateTime;
         }
 
         private void OnDrawGizmosSelected()

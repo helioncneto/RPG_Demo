@@ -26,7 +26,8 @@ namespace RPG.Control
 
         [SerializeField] CursorMapping[] cursorMappings;
         [SerializeField] float naveMeshDistance = 1f;
-        [SerializeField] float maxDistance = 40f;
+        [SerializeField] float raycastComponentRadius = 0.5f;
+        //[SerializeField] float maxDistance = 40f;
 
         void Awake()
         {
@@ -87,7 +88,7 @@ namespace RPG.Control
 
         private RaycastHit[] RaycastAllSorted()
         {
-            RaycastHit[] hits = Physics.RaycastAll(GetRaycast());
+            RaycastHit[] hits = Physics.SphereCastAll(GetRaycast(), raycastComponentRadius);
             float[] distance = new float[hits.Length];
             for(int i = 0; i < distance.Length; i++)
             {
@@ -108,6 +109,7 @@ namespace RPG.Control
             bool isHit = RaycastNavMesh(out Vector3 target);    
             if (isHit)
             {
+                if (!_mover.CanMoveTo(target)) return false;
                 if (Input.GetMouseButton(0))
                 {
                     _mover.StartMoveAction(target);
@@ -130,25 +132,25 @@ namespace RPG.Control
             if (!hasNavMesh) return false;
 
             target = navMeshHit.position;
-            NavMeshPath navMeshPath = new NavMeshPath();
-            bool hasPath = NavMesh.CalculatePath(transform.position, target, NavMesh.AllAreas, navMeshPath);
-            if (!hasPath) return false;
-            if (navMeshPath.status != NavMeshPathStatus.PathComplete) return false;
-            if (CalculateDistante(navMeshPath) > maxDistance) return false; 
+            //NavMeshPath navMeshPath = new NavMeshPath();
+            //bool hasPath = NavMesh.CalculatePath(transform.position, target, NavMesh.AllAreas, navMeshPath);
+            //if (!hasPath) return false;
+            //if (navMeshPath.status != NavMeshPathStatus.PathComplete) return false;
+            //if (CalculateDistante(navMeshPath) > maxDistance) return false; 
             return true;
             
         }
 
-        private float CalculateDistante(NavMeshPath path)
-        {
-            float total = 0f;
-            if (path.corners.Length < 2) return total;
-            for(int i = 0; i < path.corners.Length -1; i++)
-            {
-                total += Vector3.Distance(path.corners[i], path.corners[i + 1]);
-            }
-            return total;
-        }
+        //private float CalculateDistante(NavMeshPath path)
+        //{
+        //    float total = 0f;
+        //    if (path.corners.Length < 2) return total;
+        //    for(int i = 0; i < path.corners.Length -1; i++)
+        //    {
+        //        total += Vector3.Distance(path.corners[i], path.corners[i + 1]);
+        //    }
+        //    return total;
+        //}
 
         private void SetCursor(CursorType type)
         {
