@@ -6,7 +6,7 @@ using RPG.Core;
 using RPG.Saving;
 
 namespace RPG.Movement
-{
+{       
     public class Mover : MonoBehaviour, IAction, ISaveable
     {
 
@@ -62,13 +62,16 @@ namespace RPG.Movement
 
         }
 
+
         public bool CanMoveTo(Vector3 destination)
         {
             NavMeshPath navMeshPath = new NavMeshPath();
             bool hasPath = NavMesh.CalculatePath(transform.position, destination, NavMesh.AllAreas, navMeshPath);
             if (!hasPath) return false;
             if (navMeshPath.status != NavMeshPathStatus.PathComplete) return false;
-            if (CalculateDistante(navMeshPath) > maxDistance) return false;
+            //if (CalculateDistante(navMeshPath) > maxDistance) return false;
+            // Aqui estou usando a extensao CalculateDistance contida no arquivo MovementExtensions.cs
+            if (navMeshPath.CalculateDistante() > maxDistance) return false;
             return true;
         }
 
@@ -107,15 +110,15 @@ namespace RPG.Movement
             _scheduler.CancelCurrentAction();
         }
 
-        private float CalculateDistante(NavMeshPath path)
-        {
-            float total = 0f;
-            if (path.corners.Length < 2) return total;
-            for (int i = 0; i < path.corners.Length - 1; i++)
-            {
-                total += Vector3.Distance(path.corners[i], path.corners[i + 1]);
-            }
-            return total;
-        }
+        //private float CalculateDistante(NavMeshPath path)
+        //{
+        //    float total = 0f;
+        //    if (path.corners.Length < 2) return total;
+        //    for (int i = 0; i < path.corners.Length - 1; i++)
+        //    {
+        //        total += Vector3.Distance(path.corners[i], path.corners[i + 1]);
+        //    }
+        //    return total;
+        //}
     }
 }
