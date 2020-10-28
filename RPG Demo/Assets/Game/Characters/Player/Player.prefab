@@ -57,6 +57,19 @@ MonoBehaviour:
     hotspot: {x: 0, y: 0}
   naveMeshDistance: 1
   raycastComponentRadius: 0.5
+--- !u!114 &2319983529573610695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645291965994747626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19fc28a888c18ce4a82d521912c49df1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventorySize: 8
 --- !u!1001 &1317612969924478401
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -206,15 +219,78 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8585779393588074110, guid: 921302249f8b72a4f8bf4257c8396955,
+    - target: {fileID: 320015657, guid: 921302249f8b72a4f8bf4257c8396955, type: 3}
+      propertyPath: weaponPrefab
+      value: 
+      objectReference: {fileID: 1943975932245561177, guid: 0a07fd1c0fe044448acb29cca1be2444,
         type: 3}
-      propertyPath: m_Name
-      value: Player
+    - target: {fileID: 320015657, guid: 921302249f8b72a4f8bf4257c8396955, type: 3}
+      propertyPath: handTransform
+      value: 
+      objectReference: {fileID: 3161992260624389380}
+    - target: {fileID: 320015657, guid: 921302249f8b72a4f8bf4257c8396955, type: 3}
+      propertyPath: _weaponAnimatorOverride
+      value: 
+      objectReference: {fileID: 22100000, guid: 41c3d0a4fb1844b479936342bf0f9edf,
+        type: 2}
+    - target: {fileID: 320015657, guid: 921302249f8b72a4f8bf4257c8396955, type: 3}
+      propertyPath: _rightHandTransform
+      value: 
+      objectReference: {fileID: 3161992260624389380}
+    - target: {fileID: 320015657, guid: 921302249f8b72a4f8bf4257c8396955, type: 3}
+      propertyPath: _leftHandTransform
+      value: 
+      objectReference: {fileID: 3161992260624332038}
+    - target: {fileID: 320015657, guid: 921302249f8b72a4f8bf4257c8396955, type: 3}
+      propertyPath: defaultWeapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 86a6c2253f4cf4542a1bfe6821e63ab1,
+        type: 2}
+    - target: {fileID: 1215699531599951486, guid: 921302249f8b72a4f8bf4257c8396955,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8585779393588074110, guid: 921302249f8b72a4f8bf4257c8396955,
+    - target: {fileID: 1345962458324110897, guid: 921302249f8b72a4f8bf4257c8396955,
         type: 3}
-      propertyPath: m_TagString
-      value: Player
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575825836465256577, guid: 921302249f8b72a4f8bf4257c8396955,
+        type: 3}
+      propertyPath: characterClass
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575825836465256577, guid: 921302249f8b72a4f8bf4257c8396955,
+        type: 3}
+      propertyPath: startingLevel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575825836465256577, guid: 921302249f8b72a4f8bf4257c8396955,
+        type: 3}
+      propertyPath: _characterClass
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575825836465256577, guid: 921302249f8b72a4f8bf4257c8396955,
+        type: 3}
+      propertyPath: LevelUpEffectPrefab
+      value: 
+      objectReference: {fileID: 6887687623786646505, guid: 1669ea35beb7b7d4dbe6570353cff1ad,
+        type: 3}
+    - target: {fileID: 1849131257790548607, guid: 921302249f8b72a4f8bf4257c8396955,
+        type: 3}
+      propertyPath: _health
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1849131257790548607, guid: 921302249f8b72a4f8bf4257c8396955,
+        type: 3}
+      propertyPath: percentageLevelUp
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7058535423707784121, guid: 921302249f8b72a4f8bf4257c8396955,
+        type: 3}
+      propertyPath: uniqueIdentifier
+      value: player
       objectReference: {fileID: 0}
     - target: {fileID: 8585779393588074098, guid: 921302249f8b72a4f8bf4257c8396955,
         type: 3}
@@ -271,78 +347,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1215699531599951486, guid: 921302249f8b72a4f8bf4257c8396955,
+    - target: {fileID: 8585779393588074110, guid: 921302249f8b72a4f8bf4257c8396955,
         type: 3}
-      propertyPath: m_RootOrder
-      value: 1
+      propertyPath: m_Name
+      value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 1345962458324110897, guid: 921302249f8b72a4f8bf4257c8396955,
+    - target: {fileID: 8585779393588074110, guid: 921302249f8b72a4f8bf4257c8396955,
         type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1575825836465256577, guid: 921302249f8b72a4f8bf4257c8396955,
-        type: 3}
-      propertyPath: characterClass
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1575825836465256577, guid: 921302249f8b72a4f8bf4257c8396955,
-        type: 3}
-      propertyPath: startingLevel
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1575825836465256577, guid: 921302249f8b72a4f8bf4257c8396955,
-        type: 3}
-      propertyPath: _characterClass
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1575825836465256577, guid: 921302249f8b72a4f8bf4257c8396955,
-        type: 3}
-      propertyPath: LevelUpEffectPrefab
-      value: 
-      objectReference: {fileID: 6887687623786646505, guid: 1669ea35beb7b7d4dbe6570353cff1ad,
-        type: 3}
-    - target: {fileID: 1849131257790548607, guid: 921302249f8b72a4f8bf4257c8396955,
-        type: 3}
-      propertyPath: _health
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1849131257790548607, guid: 921302249f8b72a4f8bf4257c8396955,
-        type: 3}
-      propertyPath: percentageLevelUp
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 320015657, guid: 921302249f8b72a4f8bf4257c8396955, type: 3}
-      propertyPath: weaponPrefab
-      value: 
-      objectReference: {fileID: 1943975932245561177, guid: 0a07fd1c0fe044448acb29cca1be2444,
-        type: 3}
-    - target: {fileID: 320015657, guid: 921302249f8b72a4f8bf4257c8396955, type: 3}
-      propertyPath: handTransform
-      value: 
-      objectReference: {fileID: 3161992260624389380}
-    - target: {fileID: 320015657, guid: 921302249f8b72a4f8bf4257c8396955, type: 3}
-      propertyPath: _weaponAnimatorOverride
-      value: 
-      objectReference: {fileID: 22100000, guid: 41c3d0a4fb1844b479936342bf0f9edf,
-        type: 2}
-    - target: {fileID: 320015657, guid: 921302249f8b72a4f8bf4257c8396955, type: 3}
-      propertyPath: _rightHandTransform
-      value: 
-      objectReference: {fileID: 3161992260624389380}
-    - target: {fileID: 320015657, guid: 921302249f8b72a4f8bf4257c8396955, type: 3}
-      propertyPath: _leftHandTransform
-      value: 
-      objectReference: {fileID: 3161992260624332038}
-    - target: {fileID: 320015657, guid: 921302249f8b72a4f8bf4257c8396955, type: 3}
-      propertyPath: defaultWeapon
-      value: 
-      objectReference: {fileID: 11400000, guid: 86a6c2253f4cf4542a1bfe6821e63ab1,
-        type: 2}
-    - target: {fileID: 7058535423707784121, guid: 921302249f8b72a4f8bf4257c8396955,
-        type: 3}
-      propertyPath: uniqueIdentifier
-      value: player
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 921302249f8b72a4f8bf4257c8396955, type: 3}

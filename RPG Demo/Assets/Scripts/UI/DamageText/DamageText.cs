@@ -6,7 +6,6 @@ namespace RPG.UI.DamageText
 {
     public class DamageText : MonoBehaviour
     {
-        //[SerializeField] Text damageText;
         Text damageText;
 
         private void Awake()
