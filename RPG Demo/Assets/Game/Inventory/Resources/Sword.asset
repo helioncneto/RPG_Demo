@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7dc047c233344664c9996be4c36379e2, type: 3}
-  m_Name: Dagger
+  m_Name: Sword
   m_EditorClassIdentifier: 
-  itemID: 71e73607-4bac-4e42-b7d6-5e6f91e92dc4
-  displayName: Dagger
-  description: Pointy and sharp
+  itemID: 692ed7dd-e3a8-4b11-b828-4b0cf173b9bc
+  displayName: Sword
+  description: A simple sword
   icon: {fileID: 21300000, guid: d19901b0ee3c38743a7d383bd484b0b5, type: 3}
-  pickup: {fileID: 9089576529658484626, guid: f4887768df1bf6f4d804f4fb91bb70ba, type: 3}
+  pickup: {fileID: 7743776855686817626, guid: 690227e5f4ae03241bbfb9d12e6f7a68, type: 3}
   stackable: 0

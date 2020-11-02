@@ -23,6 +23,8 @@ namespace RPG.Inventories
         [SerializeField][TextArea] string description = null;
         [Tooltip("The UI icon to represent this item in the inventory.")]
         [SerializeField] Sprite icon = null;
+        [Tooltip("The prefab that should be spawned when this item is dropped.")]
+        [SerializeField] Pickup pickup = null;
         [Tooltip("If true, multiple items of this type can be stacked in the same inventory slot.")]
         [SerializeField] bool stackable = false;
 
@@ -44,29 +46,36 @@ namespace RPG.Inventories
         {
             if (itemLookupCache == null)
             {
-                // Se o dicionario nao existir, crie
                 itemLookupCache = new Dictionary<string, InventoryItem>();
-                // Ler todos os InventoryItem da pasta Resources ("") <- siginifica o caminho, se deixar duas aspas procura por todos os Resources
                 var itemList = Resources.LoadAll<InventoryItem>("");
-                // Varre todos os items de Resoures
                 foreach (var item in itemList)
                 {
                     if (itemLookupCache.ContainsKey(item.itemID))
                     {
-                        //Aqui ve se tem itens duplicados
                         Debug.LogError(string.Format("Looks like there's a duplicate GameDevTV.UI.InventorySystem ID for objects: {0} and {1}", itemLookupCache[item.itemID], item));
                         continue;
                     }
-                    // Armazena no dicionario
+
                     itemLookupCache[item.itemID] = item;
                 }
             }
-            // Se o item esta vazio ou nao existe no dicionario, retorne null
             if (itemID == null || !itemLookupCache.ContainsKey(itemID)) return null;
-            // Retorna  o item do dicionario
             return itemLookupCache[itemID];
         }
         
+        /// <summary>
+        /// Spawn the pickup gameobject into the world.
+        /// </summary>
+        /// <param name="position">Where to spawn the pickup.</param>
+        /// <returns>Reference to the pickup object spawned.</returns>
+        public Pickup SpawnPickup(Vector3 position)
+        {
+            var pickup = Instantiate(this.pickup);
+            pickup.transform.position = position;
+            pickup.Setup(this);
+            return pickup;
+        }
+
         public Sprite GetIcon()
         {
             return icon;

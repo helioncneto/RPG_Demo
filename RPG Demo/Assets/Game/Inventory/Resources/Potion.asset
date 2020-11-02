@@ -16,4 +16,5 @@ MonoBehaviour:
   displayName: Potion
   description: Restore some Health
   icon: {fileID: 21300000, guid: aba0f700d91d4fc4fa8c724899ab04ab, type: 3}
+  pickup: {fileID: 8124957491063947117, guid: aed3fadb6ba07cc4897e98c13749b603, type: 3}
   stackable: 1

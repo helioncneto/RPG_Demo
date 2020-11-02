@@ -29,6 +29,8 @@ namespace RPG.Control
         [SerializeField] float raycastComponentRadius = 0.5f;
         //[SerializeField] float maxDistance = 40f;
 
+        bool isDraggingUI = false;
+
         void Awake()
         {
             _mover = GetComponent<Mover>();
@@ -51,11 +53,7 @@ namespace RPG.Control
         // Update is called once per frame
         void Update()
         {
-            if (InteractWithUI())
-            {
-                SetCursor(CursorType.UI);
-                return;
-            }
+            if (InteractWithUI()) return;
             if (_playerHealth.IsDead())
             {
                 // Mudar o cursor em um futuro, talvez
@@ -100,8 +98,29 @@ namespace RPG.Control
 
         private bool InteractWithUI()
         {
+            // QUando o mouse for solto draguing sera false
+            if (Input.GetMouseButtonUp(0))
+            {
+                isDraggingUI = false;
+            }
             // Verifica se esta apontando para uma UI
-            return EventSystem.current.IsPointerOverGameObject();
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                // Se o mouse for pressionado dentro da UI entao esta com drag habilitado
+                if (Input.GetMouseButtonDown(0))
+                {
+                    isDraggingUI = true;
+                }
+                SetCursor(CursorType.UI);
+                return true;
+            }
+            // Se o mouse for pressionado dentro da UI essa variavel sera verdadeira e vai retornar true impedindo o movimento
+            if (isDraggingUI)
+            {
+                SetCursor(CursorType.UI);
+                return true;
+            }
+            return false;
         }
 
         private bool MovementInteraction()
