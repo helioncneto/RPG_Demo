@@ -74,7 +74,7 @@ namespace RPG.Inventories
                 return false;
             }
             slots[i].item = item;
-            slots[i].amount = amount;
+            slots[i].amount += amount;
 
             if (inventoryUpdated != null)
             {
