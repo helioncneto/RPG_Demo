@@ -10,6 +10,7 @@ namespace RPG.Inventories
     {
         // STATE
         InventoryItem item;
+        int amount;
 
         // CACHED REFERENCE
         Inventory inventory;
@@ -29,9 +30,10 @@ namespace RPG.Inventories
         /// Set the vital data after creating the prefab.
         /// </summary>
         /// <param name="item">The type of item this prefab represents.</param>
-        public void Setup(InventoryItem item)
+        public void Setup(InventoryItem item, int amount)
         {
             this.item = item;
+            this.amount = amount;
         }
 
         public InventoryItem GetItem()
@@ -39,9 +41,14 @@ namespace RPG.Inventories
             return item;
         }
 
+        public int GetAmount()
+        {
+            return amount;
+        }
+
         public void PickupItem()
         {
-            bool foundSlot = inventory.AddToFirstEmptySlot(item);
+            bool foundSlot = inventory.AddToFirstEmptySlot(item, amount);
             if (foundSlot)
             {
                 Destroy(gameObject);
