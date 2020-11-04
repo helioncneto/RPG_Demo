@@ -9,12 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dc047c233344664c9996be4c36379e2, type: 3}
+  m_Script: {fileID: 11500000, guid: bf844cf38f044094da7ee2e13e38fa0b, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
-  itemID: 692ed7dd-e3a8-4b11-b828-4b0cf173b9bc
-  displayName: Sword
+  itemID: 4aaaef7b-f46a-4cdd-830d-9119d774668c
+  displayName: 
   description: A simple sword
   icon: {fileID: 21300000, guid: d19901b0ee3c38743a7d383bd484b0b5, type: 3}
   pickup: {fileID: 7743776855686817626, guid: 690227e5f4ae03241bbfb9d12e6f7a68, type: 3}
   stackable: 0
+  allowedEquipLocation: 5

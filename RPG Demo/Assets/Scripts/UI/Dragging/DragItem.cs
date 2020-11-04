@@ -109,9 +109,9 @@ namespace RPG.Core.UI.Dragging
         private void AttemptSwap(IDragContainer<T> destination, IDragContainer<T> source)
         {
             // Provisionally remove item from both sides. 
-            var removedSourceNumber = source.GetNumber();
+            var removedSourceNumber = source.GetAmount();
             var removedSourceItem = source.GetItem();
-            var removedDestinationNumber = destination.GetNumber();
+            var removedDestinationNumber = destination.GetAmount();
             var removedDestinationItem = destination.GetItem();
 
             source.RemoveItems(removedSourceNumber);
@@ -155,7 +155,7 @@ namespace RPG.Core.UI.Dragging
         private bool AttemptSimpleTransfer(IDragDestination<T> destination)
         {
             var draggingItem = source.GetItem();
-            var draggingNumber = source.GetNumber();
+            var draggingNumber = source.GetAmount();
 
             var acceptable = destination.MaxAcceptable(draggingItem);
             var toTransfer = Mathf.Min(acceptable, draggingNumber);

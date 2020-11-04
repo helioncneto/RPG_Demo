@@ -9,12 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dc047c233344664c9996be4c36379e2, type: 3}
+  m_Script: {fileID: 11500000, guid: cd7029cb4d053e645b401ae55d43b544, type: 3}
   m_Name: Potion
   m_EditorClassIdentifier: 
-  itemID: 7ff1b5ee-3d85-4a93-92e1-e38ab34bf529
+  itemID: b49e62ec-ad31-4f09-97af-485af3f4ff8d
   displayName: Potion
-  description: Restore some Health
+  description: Restore part of your health
   icon: {fileID: 21300000, guid: aba0f700d91d4fc4fa8c724899ab04ab, type: 3}
-  pickup: {fileID: 8124957491063947117, guid: aed3fadb6ba07cc4897e98c13749b603, type: 3}
+  pickup: {fileID: 1903618200332350963, guid: 5c47bbe55dbff394bb0d616464e8555c, type: 3}
   stackable: 1
+  consumable: 1

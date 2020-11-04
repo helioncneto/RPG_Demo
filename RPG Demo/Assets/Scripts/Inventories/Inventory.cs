@@ -117,7 +117,7 @@ namespace RPG.Inventories
         public void RemoveFromSlot(int slot, int amount)
         {
             slots[slot].amount -= amount;
-            if(slots[slot].amount < 0)
+            if(slots[slot].amount <= 0)
             {
                 slots[slot].amount = 0;
                 slots[slot].item = null;
