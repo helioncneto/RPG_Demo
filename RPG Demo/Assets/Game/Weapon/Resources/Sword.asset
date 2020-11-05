@@ -15,7 +15,7 @@ MonoBehaviour:
   itemID: 83032c37-9ecb-4efe-8c30-b8fcbefc26fc
   displayName: Sword
   description: A Simple sword
-  icon: {fileID: 21300000, guid: d19901b0ee3c38743a7d383bd484b0b5, type: 3}
+  icon: {fileID: 21300000, guid: 4ad16adfdf2d1a441879a598de742eb6, type: 3}
   pickup: {fileID: 7743776855686817626, guid: 690227e5f4ae03241bbfb9d12e6f7a68, type: 3}
   stackable: 0
   allowedEquipLocation: 5

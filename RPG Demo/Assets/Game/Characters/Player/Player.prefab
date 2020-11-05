@@ -14,6 +14,18 @@ CapsuleCollider:
   m_Height: 2.07
   m_Direction: 1
   m_Center: {x: 0, y: 0.93, z: 0}
+--- !u!114 &190358617833785664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645291965994747626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6101568f5c6e83d45bef7edcd9ac964e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2319983529573610695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53,18 +65,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16b87ae6e40c65a45864cd460a72b6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6038439303095911386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1645291965994747626}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 540fba96f731e684aaa86036aaf0f87f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8877558206584280847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,7 +98,7 @@ MonoBehaviour:
     hotspot: {x: 0, y: 0}
   naveMeshDistance: 1
   raycastComponentRadius: 0.5
---- !u!114 &190358617833785664
+--- !u!114 &8039120697941856620
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,9 +107,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1645291965994747626}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6101568f5c6e83d45bef7edcd9ac964e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ecdbbb092fc0664f9f99cf1c31462dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  distance: 1
 --- !u!1001 &1317612969924478401
 PrefabInstance:
   m_ObjectHideFlags: 0

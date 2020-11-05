@@ -15,7 +15,7 @@ MonoBehaviour:
   itemID: 4542201d-9efd-479f-ba0f-ca8c5b427128
   displayName: Fire Flower
   description: The fire flower gives you a fire spell
-  icon: {fileID: 21300000, guid: a1ec2c0ddc0da634b85f0f465fec2d0d, type: 3}
+  icon: {fileID: 21300000, guid: 9f69b220176e6964fbd87f5f158d45e3, type: 3}
   pickup: {fileID: 5795306997782595287, guid: 08744f0d3afe5504483e113d6ad937ce, type: 3}
   stackable: 0
   allowedEquipLocation: 5

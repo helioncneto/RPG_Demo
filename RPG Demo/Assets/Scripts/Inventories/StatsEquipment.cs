@@ -5,6 +5,7 @@ using RPG.Stats;
 
 namespace RPG.Inventories
 {
+    [CreateAssetMenu(menuName = ("Inventory/Equipment/New Stat Equipable Item"))]
     public class StatsEquipment : Equipment, IModifierProvider
     {
         public IEnumerable<float> GetAdditiveModifier(Stat stat)
