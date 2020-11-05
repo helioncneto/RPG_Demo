@@ -41,6 +41,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   experiencePoints: 0
+--- !u!114 &5037075631337183752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645291965994747626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16b87ae6e40c65a45864cd460a72b6d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6038439303095911386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,7 +98,7 @@ MonoBehaviour:
     hotspot: {x: 0, y: 0}
   naveMeshDistance: 1
   raycastComponentRadius: 0.5
---- !u!114 &9026533549334133196
+--- !u!114 &190358617833785664
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,19 +107,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1645291965994747626}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8830b15c1a7edbd4e82d0e78efbbe697, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5037075631337183752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1645291965994747626}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16b87ae6e40c65a45864cd460a72b6d1, type: 3}
+  m_Script: {fileID: 11500000, guid: 6101568f5c6e83d45bef7edcd9ac964e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1317612969924478401

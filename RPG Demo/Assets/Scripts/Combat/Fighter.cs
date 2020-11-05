@@ -12,7 +12,7 @@ using System;
 
 namespace RPG.Combat
 {
-    public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
+    public class Fighter : MonoBehaviour, IAction, ISaveable
     {
         [SerializeField] Transform _rightHandTransform;
         [SerializeField] Transform _leftHandTransform;
@@ -209,22 +209,6 @@ namespace RPG.Combat
             string restoredWeaponName = (string)state;
             WeaponConfig weapon = UnityEngine.Resources.Load<WeaponConfig>(restoredWeaponName);
             EquipWeapon(weapon);
-        }
-
-        public IEnumerable<float> GetAdditiveModifier(Stat stat)
-        {
-            if(stat == Stat.Damage)
-            {
-                yield return currentWeaponConfig.GetWeaponDamage();
-            }
-        }
-
-        public IEnumerable<float> GetPercentageModifiers(Stat stat)
-        {
-            if (stat == Stat.Damage)
-            {
-                yield return currentWeaponConfig.GetPercentagteBonus();
-            }
         }
     }
 }

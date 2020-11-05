@@ -9,13 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf844cf38f044094da7ee2e13e38fa0b, type: 3}
+  m_Script: {fileID: 11500000, guid: 5b20a389af5e98f40840043e4ba6f30d, type: 3}
   m_Name: Hat
   m_EditorClassIdentifier: 
-  itemID: bb690620-cb3d-4385-a7fd-87cb2c5cf573
-  displayName: 
+  itemID: 3916a638-4206-4a30-a312-68092f931bff
+  displayName: Hat
   description: Keeps the rain off
   icon: {fileID: 21300000, guid: c1b61b3a91732a747a8496fc75a13fe2, type: 3}
   pickup: {fileID: 1903618200332350963, guid: 5c47bbe55dbff394bb0d616464e8555c, type: 3}
   stackable: 1
   allowedEquipLocation: 0
+  additiveModifiers:
+  - stat: 0
+    value: 20
+  percentageModifiers: []
