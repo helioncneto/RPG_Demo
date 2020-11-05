@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c083ad897d611464e8eb8fa8fc3cee72, type: 3}
   m_Name: IceBow
   m_EditorClassIdentifier: 
+  itemID: ad489bd7-b67a-4516-b23a-73e97440d17a
+  displayName: Ice Bow
+  description: Bow with ice powers
+  icon: {fileID: 21300000, guid: a1ec2c0ddc0da634b85f0f465fec2d0d, type: 3}
+  pickup: {fileID: 7390562098688166123, guid: 3d9c9e04e79922c46a6b39db3e30ef46, type: 3}
+  stackable: 0
+  allowedEquipLocation: 5
   weaponPrefab: {fileID: 4375784005630716495, guid: 5c9a34830323ca842a451c1f8915af69,
     type: 3}
   animatorOverride: {fileID: 22100000, guid: 8cd6cafe888af4b4ea40ca53d53fdc73, type: 2}

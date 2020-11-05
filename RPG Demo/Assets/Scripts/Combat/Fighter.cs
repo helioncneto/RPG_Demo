@@ -7,6 +7,7 @@ using RPG.Saving;
 using RPG.Attributes;
 using RPG.Stats;
 using GameDevTV.Utils;
+using RPG.Inventories;
 using System;
 
 namespace RPG.Combat
@@ -29,6 +30,7 @@ namespace RPG.Combat
         //[SerializeField] string defaultWeaponName = "Unarmed";
         WeaponConfig currentWeaponConfig;
         LazyValue<Weapon> currentWeapon;
+        Equipment equipment;
 
 
         private void Awake()
@@ -54,6 +56,11 @@ namespace RPG.Combat
             if (_baseStats == null)
             {
                 Debug.LogError("BaseStats is Null");
+            }
+            equipment = GetComponent<Equipment>();
+            if(equipment != null)
+            {
+                equipment.equipmentUpdated += UpdateWeapon;
             }
 
             currentWeaponConfig = defaultWeapon;
@@ -160,6 +167,19 @@ namespace RPG.Combat
         {
             currentWeaponConfig = weapon;
             currentWeapon.value = AttachWeapon(weapon);
+        }
+
+        private void UpdateWeapon()
+        {
+            WeaponConfig weaponConfig = (WeaponConfig)equipment.GetItemInSlot(EquipLocation.Weapon);
+            if(weaponConfig != null)
+            {
+                EquipWeapon(weaponConfig);
+            }
+            else
+            {
+                EquipWeapon(defaultWeapon);
+            }
         }
 
         private Weapon GetDeafultWeapon()
