@@ -10,6 +10,7 @@ namespace RPG.Dialogue.Editor
     public class DialogueEditor : EditorWindow
     {
         Dialogue selectedDialogue;
+        GUIStyle nodeStyle;
 
         [MenuItem("Window/Dialog Editor")]
         public static void Initialize()
@@ -18,6 +19,7 @@ namespace RPG.Dialogue.Editor
         }
         
         // Cuidado ao usar OnOpenAsset, pois todo asset aberto vai rodar esse metodo, por isso devemos checar se o metodo esta sendo chamado pelo asset correto
+        // Essa anotation envia dois a tres parametros (instanceID, line e row). No nosso caso so usamos o instanceID
         [OnOpenAsset(1)]
         public static bool OpenDialogueEditor(int instanceID, int line)
         {
@@ -34,6 +36,12 @@ namespace RPG.Dialogue.Editor
         private void OnEnable()
         {
             Selection.selectionChanged += OnSelectionChanged;
+            nodeStyle = new GUIStyle();
+            nodeStyle.normal.background = EditorGUIUtility.Load("node0") as Texture2D;
+            //nodeStyle.normal.textColor = Color.white;
+            // Valores conseguidos atraves de testes
+            nodeStyle.padding = new RectOffset(20, 20, 20, 20);
+            nodeStyle.border = new RectOffset(12, 12, 12, 12);
         }
 
         private void OnSelectionChanged()
@@ -56,9 +64,32 @@ namespace RPG.Dialogue.Editor
             {
                 foreach(DialogueNode node in selectedDialogue.GetAllNodes())
                 {
-                    EditorGUILayout.LabelField(node.text);
+                    OnGUINode(node);
                 }
             }
+        }
+
+        private void OnGUINode(DialogueNode node)
+        {
+            GUILayout.BeginArea(node.position, nodeStyle);
+            // Começa a verificar se há mudança no Editor
+            EditorGUI.BeginChangeCheck();
+
+            EditorGUILayout.LabelField("Node:", EditorStyles.whiteLabel);
+            string newText = EditorGUILayout.TextField(node.text);
+            string newID = EditorGUILayout.TextField(node.uniqueID);
+            // EndChangeCHeck verifica se alguma mudança foi feita, desde BeginChance, se sim retorna true
+            if (EditorGUI.EndChangeCheck())
+            {
+                // Grava oq foi feito e caso aperte ctrl + z, seja refeito
+                Undo.RecordObject(selectedDialogue, "Update Dialogue Text");
+                node.text = newText;
+                node.uniqueID = newID;
+                // Salva oq foi editado no Editor no Scriptanle object
+                //EditorUtility.SetDirty(selectedDialogue);
+            }
+
+            GUILayout.EndArea();
         }
     }
 }

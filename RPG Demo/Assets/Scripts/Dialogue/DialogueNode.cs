@@ -10,6 +10,7 @@ namespace RPG.Dialogue
         public string uniqueID;
         [TextArea] public string text;
         public string[] child;
+        public Rect position;
     }
 
 }

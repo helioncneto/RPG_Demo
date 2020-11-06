@@ -19,12 +19,36 @@ MonoBehaviour:
     - b
     - c
     - d
+    position:
+      serializedVersion: 2
+      x: 10
+      y: 10
+      width: 200
+      height: 100
   - uniqueID: b
-    text: Hi, I'm fine!
+    text: I'm FIne, Thanks!
     child: []
+    position:
+      serializedVersion: 2
+      x: 10
+      y: 110
+      width: 200
+      height: 100
   - uniqueID: c
-    text: Hello, your seft.
+    text: 'Hello, your seft. '
     child: []
+    position:
+      serializedVersion: 2
+      x: 10
+      y: 210
+      width: 200
+      height: 100
   - uniqueID: d
     text: Go away!!
     child: []
+    position:
+      serializedVersion: 2
+      x: 220
+      y: 10
+      width: 200
+      height: 100

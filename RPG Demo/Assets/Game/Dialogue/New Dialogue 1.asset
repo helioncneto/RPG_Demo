@@ -14,5 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueNodes:
   - uniqueID: 
-    text: Hello there
+    text: Hello there!
     child: []
+    position:
+      serializedVersion: 2
+      x: 10
+      y: 10
+      width: 200
+      height: 200
