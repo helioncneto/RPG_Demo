@@ -10,10 +10,18 @@ namespace RPG.Dialogue.Editor
 {
     public class DialogueEditor : EditorWindow
     {
+        //Usamos NoNSerializes, pois o EditorWindow serializa todas suas variáveis e isso acaba transformando o creatingNode em not null, fazendo com que novos nós sejam criados.
         Dialogue selectedDialogue;
+        [NonSerialized]
         GUIStyle nodeStyle;
+        [NonSerialized]
         DialogueNode draggingNode;
+        [NonSerialized]
         Vector2 draggingOffset;
+
+        // Criamos esse objeto para que o novo nó sejá criado depois do foreach loop
+        [NonSerialized]
+        DialogueNode creatingNode;
 
         [MenuItem("Window/Dialog Editor")]
         public static void Initialize()
@@ -74,8 +82,14 @@ namespace RPG.Dialogue.Editor
                 // Existem dois foreach para impedir que as linhas passem por cima dos nós
                 foreach (DialogueNode node in selectedDialogue.GetAllNodes())
                 {
-                    OnGUINode(node);
+                    DrawNode(node);
                 }
+            }
+            if(creatingNode != null)
+            {
+                Undo.RecordObject(selectedDialogue, "Creating a node");
+                selectedDialogue.CreateNode(creatingNode);
+                creatingNode = null;
             }
         }
 
@@ -104,24 +118,25 @@ namespace RPG.Dialogue.Editor
             } 
         }
 
-        private void OnGUINode(DialogueNode node)
+        private void DrawNode(DialogueNode node)
         {
             GUILayout.BeginArea(node.rect, nodeStyle);
             // Começa a verificar se há mudança no Editor
             EditorGUI.BeginChangeCheck();
 
-            EditorGUILayout.LabelField("Node:", EditorStyles.whiteLabel);
             string newText = EditorGUILayout.TextField(node.text);
-            string newID = EditorGUILayout.TextField(node.uniqueID);
             // EndChangeCHeck verifica se alguma mudança foi feita, desde BeginChance, se sim retorna true
             if (EditorGUI.EndChangeCheck())
             {
                 // Grava oq foi feito e caso aperte ctrl + z, seja refeito
                 Undo.RecordObject(selectedDialogue, "Update Dialogue Text");
                 node.text = newText;
-                node.uniqueID = newID;
                 // Salva oq foi editado no Editor no Scriptanle object
                 //EditorUtility.SetDirty(selectedDialogue);
+            }
+            if (GUILayout.Button("Add"))
+            {
+                creatingNode = node;
             }
             GUILayout.EndArea();
         }

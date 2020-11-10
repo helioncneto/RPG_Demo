@@ -13,32 +13,62 @@ MonoBehaviour:
   m_Name: New Dialogue
   m_EditorClassIdentifier: 
   dialogueNodes:
-  - uniqueID: a
-    text: Hello how are you?
+  - uniqueID: a593d85b-591b-406d-94a7-f9e8a21899ba
+    text: Hello
     child:
-    - b
-    - c
+    - 52877819-8edb-493e-b6e6-6928db7ee753
+    - 8c87a9ba-d8fe-450d-8b52-036510e17beb
     rect:
       serializedVersion: 2
-      x: 208
-      y: 125
-      width: 200
-      height: 150
-  - uniqueID: b
-    text: I'm fine, thanks!
-    child: []
-    rect:
-      serializedVersion: 2
-      x: 524
-      y: 217
+      x: 41
+      y: 82
       width: 200
       height: 100
-  - uniqueID: c
-    text: Get away!!
+  - uniqueID: 52877819-8edb-493e-b6e6-6928db7ee753
+    text: Get Away
+    child:
+    - cdea2d0b-0871-43fd-b500-abf0fe831860
+    rect:
+      serializedVersion: 2
+      x: 337
+      y: 176
+      width: 200
+      height: 100
+  - uniqueID: 8c87a9ba-d8fe-450d-8b52-036510e17beb
+    text: Hi
+    child:
+    - c323c1e8-3682-44e7-a040-69fc74dfdd6b
+    rect:
+      serializedVersion: 2
+      x: 338
+      y: 22
+      width: 200
+      height: 100
+  - uniqueID: c323c1e8-3682-44e7-a040-69fc74dfdd6b
+    text: How you doing?
+    child:
+    - d9bdea5e-929d-4341-a634-39cec3a3f322
+    rect:
+      serializedVersion: 2
+      x: 599
+      y: 71
+      width: 200
+      height: 100
+  - uniqueID: d9bdea5e-929d-4341-a634-39cec3a3f322
+    text: Fine
     child: []
     rect:
       serializedVersion: 2
-      x: 519
-      y: 84
+      x: 839
+      y: 96
+      width: 200
+      height: 100
+  - uniqueID: cdea2d0b-0871-43fd-b500-abf0fe831860
+    text: Attack!
+    child: []
+    rect:
+      serializedVersion: 2
+      x: 635
+      y: 237
       width: 200
       height: 100
