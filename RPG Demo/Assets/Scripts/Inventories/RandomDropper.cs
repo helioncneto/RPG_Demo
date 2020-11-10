@@ -23,6 +23,7 @@ namespace RPG.Inventories
 
             foreach(var drop in drops)
             {
+                print(drop.item);
                 DropItem(drop.item, drop.number);
             }
         }

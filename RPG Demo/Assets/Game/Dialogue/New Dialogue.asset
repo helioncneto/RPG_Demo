@@ -14,41 +14,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueNodes:
   - uniqueID: a
-    text: Hello! How are you?
+    text: Hello how are you?
     child:
     - b
     - c
-    - d
-    position:
+    rect:
       serializedVersion: 2
-      x: 10
-      y: 10
+      x: 208
+      y: 125
       width: 200
-      height: 100
+      height: 150
   - uniqueID: b
-    text: I'm FIne, Thanks!
+    text: I'm fine, thanks!
     child: []
-    position:
+    rect:
       serializedVersion: 2
-      x: 10
-      y: 110
+      x: 524
+      y: 217
       width: 200
       height: 100
   - uniqueID: c
-    text: 'Hello, your seft. '
+    text: Get away!!
     child: []
-    position:
+    rect:
       serializedVersion: 2
-      x: 10
-      y: 210
-      width: 200
-      height: 100
-  - uniqueID: d
-    text: Go away!!
-    child: []
-    position:
-      serializedVersion: 2
-      x: 220
-      y: 10
+      x: 519
+      y: 84
       width: 200
       height: 100
