@@ -22,6 +22,10 @@ namespace RPG.Dialogue.Editor
         // Criamos esse objeto para que o novo nó sejá criado depois do foreach loop
         [NonSerialized]
         DialogueNode creatingNode;
+        [NonSerialized]
+        DialogueNode deletingNode;
+        [NonSerialized]
+        DialogueNode linkinParentNode;
 
         [MenuItem("Window/Dialog Editor")]
         public static void Initialize()
@@ -91,6 +95,12 @@ namespace RPG.Dialogue.Editor
                 selectedDialogue.CreateNode(creatingNode);
                 creatingNode = null;
             }
+            if (deletingNode != null)
+            {
+                Undo.RecordObject(selectedDialogue, "Deleting a node");
+                selectedDialogue.DeleteNode(deletingNode);
+                deletingNode = null;
+            }
         }
 
         private void ProcessEvents()
@@ -134,11 +144,74 @@ namespace RPG.Dialogue.Editor
                 // Salva oq foi editado no Editor no Scriptanle object
                 //EditorUtility.SetDirty(selectedDialogue);
             }
+
+            GUILayout.BeginHorizontal();
+            GetAddButton(node);
+            GetLinkButton(node);
+            GetDeleteButton(node);
+            GUILayout.EndHorizontal();
+
+            GUILayout.EndArea();
+        }
+
+        private void GetAddButton(DialogueNode node)
+        {
             if (GUILayout.Button("Add"))
             {
                 creatingNode = node;
             }
-            GUILayout.EndArea();
+        }
+
+        private void GetDeleteButton(DialogueNode node)
+        {
+            if (GUILayout.Button("Del"))
+            {
+                deletingNode = node;
+            }
+        }
+
+        private void GetLinkButton(DialogueNode node)
+        {
+            if (linkinParentNode == null)
+            {
+                if (GUILayout.Button("link"))
+                {
+                    linkinParentNode = node;
+                }
+            }
+            else
+            {
+                if (linkinParentNode != node)
+                {
+                    if (!linkinParentNode.child.Contains(node.uniqueID))
+                    {
+                        if (GUILayout.Button("child"))
+                        {
+
+                            Undo.RecordObject(selectedDialogue, "Linking nodes");
+                            linkinParentNode.child.Add(node.uniqueID);
+                            linkinParentNode = null;
+                        }
+                    }
+                    else
+                    {
+                        if (GUILayout.Button("Unlink"))
+                        {
+                            Undo.RecordObject(selectedDialogue, "Linking nodes");
+                            linkinParentNode.child.Remove(node.uniqueID);
+                            linkinParentNode = null;
+                        }
+                    }
+
+                }
+                else if (linkinParentNode == node)
+                {
+                    if (GUILayout.Button("Cancel"))
+                    {
+                        linkinParentNode = null;
+                    }
+                }
+            }
         }
 
         private void DrawConections(DialogueNode node)

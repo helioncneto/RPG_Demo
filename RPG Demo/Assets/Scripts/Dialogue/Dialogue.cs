@@ -64,7 +64,23 @@ namespace RPG.Dialogue
             newNode.uniqueID = Guid.NewGuid().ToString();
             dialogueNodes.Add(newNode);
             parentNode.child.Add(newNode.uniqueID);
-            lookupNode[newNode.uniqueID] = newNode;
+            //lookupNode[newNode.uniqueID] = newNode;
+            OnValidate();
+        }
+
+        public void DeleteNode(DialogueNode nodeToDelete)
+        {
+            dialogueNodes.Remove(nodeToDelete);
+            OnValidate();
+            UnlinkChildren(nodeToDelete);
+        }
+
+        private void UnlinkChildren(DialogueNode nodeToDelete)
+        {
+            foreach (DialogueNode node in GetAllNodes())
+            {
+                node.child.Remove(nodeToDelete.uniqueID);
+            }
         }
     }
 }

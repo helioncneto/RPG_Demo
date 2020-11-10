@@ -16,22 +16,12 @@ MonoBehaviour:
   - uniqueID: a593d85b-591b-406d-94a7-f9e8a21899ba
     text: Hello
     child:
-    - 52877819-8edb-493e-b6e6-6928db7ee753
+    - c3adbcee-f0a2-422d-91ee-834036f5521a
     - 8c87a9ba-d8fe-450d-8b52-036510e17beb
     rect:
       serializedVersion: 2
-      x: 41
-      y: 82
-      width: 200
-      height: 100
-  - uniqueID: 52877819-8edb-493e-b6e6-6928db7ee753
-    text: Get Away
-    child:
-    - cdea2d0b-0871-43fd-b500-abf0fe831860
-    rect:
-      serializedVersion: 2
-      x: 337
-      y: 176
+      x: 49
+      y: 75
       width: 200
       height: 100
   - uniqueID: 8c87a9ba-d8fe-450d-8b52-036510e17beb
@@ -55,7 +45,7 @@ MonoBehaviour:
       width: 200
       height: 100
   - uniqueID: d9bdea5e-929d-4341-a634-39cec3a3f322
-    text: Fine
+    text: ' '
     child: []
     rect:
       serializedVersion: 2
@@ -63,12 +53,32 @@ MonoBehaviour:
       y: 96
       width: 200
       height: 100
-  - uniqueID: cdea2d0b-0871-43fd-b500-abf0fe831860
+  - uniqueID: c3adbcee-f0a2-422d-91ee-834036f5521a
+    text: Get Away
+    child:
+    - e57ae081-4b29-4500-aec6-aab1856fe23a
+    rect:
+      serializedVersion: 2
+      x: 278
+      y: 204
+      width: 200
+      height: 100
+  - uniqueID: e57ae081-4b29-4500-aec6-aab1856fe23a
     text: Attack!
+    child:
+    - 7337fc15-9b17-44e2-806c-b4313965c7df
+    rect:
+      serializedVersion: 2
+      x: 468
+      y: 232
+      width: 200
+      height: 100
+  - uniqueID: 7337fc15-9b17-44e2-806c-b4313965c7df
+    text: aaa
     child: []
     rect:
       serializedVersion: 2
-      x: 635
-      y: 237
+      x: 720
+      y: 164
       width: 200
       height: 100
