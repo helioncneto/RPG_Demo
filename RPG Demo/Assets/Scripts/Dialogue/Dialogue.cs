@@ -8,6 +8,8 @@ namespace RPG.Dialogue
     [CreateAssetMenu(fileName = "New Dialogue", menuName = "Dialogue", order = 0)]
     public class Dialogue : ScriptableObject
     {
+        public int editorSizeWidth = 4000;
+        public int editorSizeHeight = 4000;
         [SerializeField] List<DialogueNode> dialogueNodes = new List<DialogueNode>();
         Dictionary<string, DialogueNode> lookupNode = new Dictionary<string, DialogueNode>();
 

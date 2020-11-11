@@ -26,6 +26,11 @@ namespace RPG.Dialogue.Editor
         DialogueNode deletingNode;
         [NonSerialized]
         DialogueNode linkinParentNode;
+        [NonSerialized]
+        bool draggingCanvas;
+        [NonSerialized]
+        Vector2 canvasOffset;
+        Vector2 scrollPosition;
 
         [MenuItem("Window/Dialog Editor")]
         public static void Initialize()
@@ -78,6 +83,8 @@ namespace RPG.Dialogue.Editor
             else
             {
                 ProcessEvents();
+                scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+                GUILayoutUtility.GetRect(selectedDialogue.editorSizeHeight, selectedDialogue.editorSizeHeight);
 
                 foreach (DialogueNode node in selectedDialogue.GetAllNodes())
                 {
@@ -88,6 +95,7 @@ namespace RPG.Dialogue.Editor
                 {
                     DrawNode(node);
                 }
+                EditorGUILayout.EndScrollView();
             }
             if(creatingNode != null)
             {
@@ -107,10 +115,14 @@ namespace RPG.Dialogue.Editor
         {
             if (Event.current.type == EventType.MouseDown && draggingNode == null)
             {
-                draggingNode = GetNodeAtPoint(Event.current.mousePosition);
+                draggingNode = GetNodeAtPoint(Event.current.mousePosition + scrollPosition);
                 if(draggingNode != null)
                 {
                     draggingOffset = draggingNode.rect.position - Event.current.mousePosition;
+                } else
+                {
+                    draggingCanvas = true;
+                    draggingOffset = Event.current.mousePosition + scrollPosition;
                 }
 
             }
@@ -120,12 +132,22 @@ namespace RPG.Dialogue.Editor
                 draggingNode.rect.position = Event.current.mousePosition + draggingOffset;
                 GUI.changed = true;
             }
+            else if (Event.current.type == EventType.MouseDrag && draggingCanvas)
+            {
+                Undo.RecordObject(selectedDialogue, "Dragging Canvas");
+                scrollPosition = draggingOffset - Event.current.mousePosition;
+                GUI.changed = true;
+            }
             else if(Event.current.type == EventType.MouseUp && draggingNode != null)
             {
                 draggingNode = null;
                 //Undo.RecordObject(selectedDialogue, "Drag the node");
                 //selectedDialogue.GetRootNode().rect.position = Event.current.mousePosition;
-            } 
+            }
+            else if (Event.current.type == EventType.MouseUp && draggingCanvas)
+            {
+                draggingCanvas = false;
+            }
         }
 
         private void DrawNode(DialogueNode node)
