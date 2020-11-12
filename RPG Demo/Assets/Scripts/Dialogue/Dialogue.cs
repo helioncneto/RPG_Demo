@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace RPG.Dialogue
@@ -8,8 +9,7 @@ namespace RPG.Dialogue
     [CreateAssetMenu(fileName = "New Dialogue", menuName = "Dialogue", order = 0)]
     public class Dialogue : ScriptableObject
     {
-        public int editorSizeWidth = 4000;
-        public int editorSizeHeight = 4000;
+        public int editorSize = 4000;
         [SerializeField] List<DialogueNode> dialogueNodes = new List<DialogueNode>();
         Dictionary<string, DialogueNode> lookupNode = new Dictionary<string, DialogueNode>();
 
@@ -18,9 +18,7 @@ namespace RPG.Dialogue
         {
             if( dialogueNodes.Count <= 0)
             {
-                DialogueNode rootNode = new DialogueNode();
-                rootNode.uniqueID = Guid.NewGuid().ToString();
-                dialogueNodes.Add(rootNode);
+                CreateNode(null);
             }
         }
 #endif
@@ -37,6 +35,11 @@ namespace RPG.Dialogue
         public IEnumerable<DialogueNode> GetAllNodes()
         {
             return dialogueNodes;
+        }
+
+        public int GetNodesAmount()
+        {
+            return dialogueNodes.Count;
         }
 
         public DialogueNode GetRootNode()
@@ -62,10 +65,14 @@ namespace RPG.Dialogue
 
         public void CreateNode(DialogueNode parentNode)
         {
-            DialogueNode newNode = new DialogueNode();
+            DialogueNode newNode = CreateInstance<DialogueNode>();
             newNode.uniqueID = Guid.NewGuid().ToString();
+            Undo.RegisterCreatedObjectUndo(newNode, "Created Node");
             dialogueNodes.Add(newNode);
-            parentNode.child.Add(newNode.uniqueID);
+            if(parentNode != null)
+            {
+                parentNode.child.Add(newNode.uniqueID);
+            }
             //lookupNode[newNode.uniqueID] = newNode;
             OnValidate();
         }
@@ -73,6 +80,7 @@ namespace RPG.Dialogue
         public void DeleteNode(DialogueNode nodeToDelete)
         {
             dialogueNodes.Remove(nodeToDelete);
+            Undo.DestroyObjectImmediate(nodeToDelete);
             OnValidate();
             UnlinkChildren(nodeToDelete);
         }

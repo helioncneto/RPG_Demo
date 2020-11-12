@@ -32,6 +32,9 @@ namespace RPG.Dialogue.Editor
         Vector2 canvasOffset;
         Vector2 scrollPosition;
 
+        // CONSTANTS
+        const int backgroundSize = 50;
+
         [MenuItem("Window/Dialog Editor")]
         public static void Initialize()
         {
@@ -84,7 +87,13 @@ namespace RPG.Dialogue.Editor
             {
                 ProcessEvents();
                 scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
-                GUILayoutUtility.GetRect(selectedDialogue.editorSizeHeight, selectedDialogue.editorSizeHeight);
+                Rect canvas = GUILayoutUtility.GetRect(selectedDialogue.editorSize, selectedDialogue.editorSize);
+                // O background é colocado como Tiles, entao o Height e Width de texcords deve conter quantos backgrounds serão colocados
+                // Que no caso foi o tamanho do canvas dividido pelo tamanho do backgrouns
+                Rect texCoords = new Rect(0, 0, selectedDialogue.editorSize / backgroundSize, selectedDialogue.editorSize / backgroundSize);
+                Texture2D backgroundTexture = Resources.Load("background") as Texture2D;
+                
+                GUI.DrawTextureWithTexCoords(canvas, backgroundTexture, texCoords);
 
                 foreach (DialogueNode node in selectedDialogue.GetAllNodes())
                 {
@@ -119,10 +128,12 @@ namespace RPG.Dialogue.Editor
                 if(draggingNode != null)
                 {
                     draggingOffset = draggingNode.rect.position - Event.current.mousePosition;
+                    Selection.activeObject = draggingNode;
                 } else
                 {
                     draggingCanvas = true;
                     draggingOffset = Event.current.mousePosition + scrollPosition;
+                    Selection.activeObject = selectedDialogue;
                 }
 
             }
@@ -186,10 +197,14 @@ namespace RPG.Dialogue.Editor
 
         private void GetDeleteButton(DialogueNode node)
         {
-            if (GUILayout.Button("Del"))
+            if(selectedDialogue.GetNodesAmount() > 1)
             {
-                deletingNode = node;
+                if (GUILayout.Button("Del"))
+                {
+                    deletingNode = node;
+                }
             }
+            
         }
 
         private void GetLinkButton(DialogueNode node)
