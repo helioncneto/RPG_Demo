@@ -28,7 +28,7 @@ namespace RPG.Dialogue
             lookupNode.Clear();
             foreach (DialogueNode node in GetAllNodes())
             {
-                lookupNode[node.uniqueID] = node;
+                lookupNode[node.name] = node;
             }
         }
 
@@ -66,12 +66,12 @@ namespace RPG.Dialogue
         public void CreateNode(DialogueNode parentNode)
         {
             DialogueNode newNode = CreateInstance<DialogueNode>();
-            newNode.uniqueID = Guid.NewGuid().ToString();
+            newNode.name = Guid.NewGuid().ToString();
             Undo.RegisterCreatedObjectUndo(newNode, "Created Node");
             dialogueNodes.Add(newNode);
             if(parentNode != null)
             {
-                parentNode.child.Add(newNode.uniqueID);
+                parentNode.child.Add(newNode.name);
             }
             //lookupNode[newNode.uniqueID] = newNode;
             OnValidate();
@@ -89,7 +89,7 @@ namespace RPG.Dialogue
         {
             foreach (DialogueNode node in GetAllNodes())
             {
-                node.child.Remove(nodeToDelete.uniqueID);
+                node.child.Remove(nodeToDelete.name);
             }
         }
     }

@@ -220,13 +220,13 @@ namespace RPG.Dialogue.Editor
             {
                 if (linkinParentNode != node)
                 {
-                    if (!linkinParentNode.child.Contains(node.uniqueID))
+                    if (!linkinParentNode.child.Contains(node.name))
                     {
                         if (GUILayout.Button("child"))
                         {
 
                             Undo.RecordObject(selectedDialogue, "Linking nodes");
-                            linkinParentNode.child.Add(node.uniqueID);
+                            linkinParentNode.child.Add(node.name);
                             linkinParentNode = null;
                         }
                     }
@@ -235,7 +235,7 @@ namespace RPG.Dialogue.Editor
                         if (GUILayout.Button("Unlink"))
                         {
                             Undo.RecordObject(selectedDialogue, "Linking nodes");
-                            linkinParentNode.child.Remove(node.uniqueID);
+                            linkinParentNode.child.Remove(node.name);
                             linkinParentNode = null;
                         }
                     }
